@@ -1,5 +1,5 @@
 class PromosModel {
-  int id;
+  String id;
   String name;
   String slug;
   String permalink;
@@ -157,3 +157,51 @@ class Images {
     return data;
   }
 }
+
+List<Images> _imagesList = [
+  Images(
+    id: 44,
+    src: 'http://praemi.3.94.78.53.xip.io/wp-content/uploads/sites/3/2020/12/hamburger-2253349_1280.jpg',
+    name: 'name'
+  ),
+];
+
+final List<PromosModel> listPromosModel = [
+  PromosModel(
+      id: 'promo1',
+      name: 'Descuento de 30% en comidas y postres',
+      type: 'Restaurante',
+      images: _imagesList,
+  ),
+  PromosModel(
+      id: 'promo1',
+      name: 'Descuento de 30% en comidas y postres',
+      type: 'Restaurante',
+      images: _imagesList,
+  ),
+  PromosModel(
+      id: 'promo1',
+      name: 'Descuento de 30% en comidas y postres',
+      type: 'Restaurante',
+      images: _imagesList,
+  ),
+  PromosModel(
+      id: 'promo1',
+      name: 'Descuento de 30% en comidas y postres',
+      type: 'Restaurante',
+      images: _imagesList,
+  ),
+   PromosModel(
+      id: 'promo1',
+      name: 'Descuento de 30% en comidas y postres',
+      type: 'Restaurante',
+      images: _imagesList,
+  ),
+   PromosModel(
+      id: 'promo1',
+      name: 'Descuento de 30% en comidas y postres',
+      type: 'Restaurante',
+      images: _imagesList,
+  ),
+];
+
