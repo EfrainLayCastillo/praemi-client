@@ -8,7 +8,8 @@ class PromosRepository {
 //Get Promos List WooCommerce
 //Convert WooProduct to Model PromosModel
   Future<List<PromosModel>> getPromosListWooCommerce() async {
-    final wooPraemi = await WooPraemi.initializeWoo();
+    final wooPraemi = await WooPraemi.initWoo();
+    _getToken();
     List<WooProduct> productsList = await wooPraemi.getProducts();
 
     return productsList.map((prod) => 
@@ -31,11 +32,19 @@ class PromosRepository {
           name: cat.name,
           slug: cat.slug
         )).toList(),
-        images : (prod.images).map((img) => WooProdImages(
+        images : (prod.images).map((img) => ProdImages(
           id: img.id,
           src: img.src
-        ))
+        )).toList(),
+        
     )).toList();
+  }
+
+  _getToken() async {
+    WooCommerce commerce = await WooPraemi.initWoo();
+    final userAuth = await commerce.authenticateViaJWT( username: "restapi", password: "#Panama01" );
+    print("Este es el token: $userAuth");
+    print("GET TOKEN EXECUTED");
   }
 
 }

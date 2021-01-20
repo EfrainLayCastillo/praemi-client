@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
-import 'package:praemiclient/screens/PromosListScreen.dart/PromoGridView.dart';
+import 'package:praemiclient/screens/PromoScreen/PromoGridView.dart';
 
 class PromoScreen extends StatelessWidget {
   final PromosRepository _promosRepository = new PromosRepository();
@@ -12,7 +12,7 @@ class PromoScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [ 
         BlocProvider(
-          create: (BuildContext context) => PromoGridCubit(this._promosRepository)
+          create: (BuildContext context) => PromoGridCubit(_promosRepository)
         ) 
       ],
       child: Scaffold(
@@ -29,7 +29,7 @@ class PromoScreen extends StatelessWidget {
             SliverPadding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
               sliver: PromoGridView(),
-            ),
+            )
           ],
         )
       )

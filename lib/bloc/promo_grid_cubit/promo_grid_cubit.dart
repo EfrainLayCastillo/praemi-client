@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:praemiclient/models/promos_model.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
@@ -16,7 +15,7 @@ class PromoGridCubit extends Cubit<PromoGridState> {
       final List<PromosModel> promosList = await _promosRepository.getPromosListWooCommerce();
       emit(PromoGridLoad(promosList: promosList ));
     } on Exception {
-      print('error al cargar la lista en el banner del home');
+      print('error al cargar la lista de productos');
     }
   }
   

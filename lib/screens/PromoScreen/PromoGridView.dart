@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
-import 'package:praemiclient/models/promos_model.dart';
-import 'package:praemiclient/screens/PromosListScreen.dart/ItemPromoCard.dart';
+import 'package:praemiclient/screens/PromoScreen/ItemPromoCard.dart';
 import 'package:praemiclient/utils/CustomCircularLoadingIndicator.dart';
 
 class PromoGridView extends StatefulWidget {
-  PromoGridView({
-    Key key,
-  }) : super(key: key);
-
+  PromoGridView({ Key key}) : super(key: key);
   @override
   _PromoGridViewState createState() => _PromoGridViewState();
 }
 
 class _PromoGridViewState extends State<PromoGridView> {
+  
   @override
   void initState() {
     super.initState();
@@ -39,14 +36,15 @@ class _PromoGridViewState extends State<PromoGridView> {
 
     return BlocBuilder<PromoGridCubit, PromoGridState>(
       builder: (context, state) {
-        if (state is PromoGridInitial) return Center(child: CustomCircularLoadingIndicator());
+        if (state is PromoGridInitial) return LoadingSliverAdapter();
         if (state is PromoGridLoad) {
           return SliverGrid(
-            delegate: SliverChildBuilderDelegate((context, int index) {
-              return ItemPromoCard(
-                promosModel: state.promosList[index],
-              );
-            }, childCount: listPromosModel.length),
+            delegate: SliverChildBuilderDelegate(
+              (context, int index) {
+                return ItemPromoCard( promosModel: state.promosList[index] );
+              }, 
+              childCount: state.promosList.length
+            ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: _crossAxisSpacing,
@@ -55,8 +53,19 @@ class _PromoGridViewState extends State<PromoGridView> {
             )
           );
         }
-        return Center(child: CustomCircularLoadingIndicator());
+        return LoadingSliverAdapter();
       },
+    );
+  }
+}
+
+class LoadingSliverAdapter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Center(
+        child: CustomCircularLoadingIndicator()
+      )
     );
   }
 }

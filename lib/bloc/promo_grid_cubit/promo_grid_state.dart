@@ -1,6 +1,5 @@
 part of 'promo_grid_cubit.dart';
 
-@immutable
 abstract class PromoGridState extends Equatable {
   const PromoGridState();
   @override
@@ -22,5 +21,5 @@ class PromoGridLoad extends PromoGridState {
   List<Object> get props => [promosList];
 
   @override
-  String toString() => 'Lista Cargada de Paquetes sugeridos: ${promosList.length}';
+  String toString() => 'Lista Cargada de Promociones: ${promosList.length}';
 }

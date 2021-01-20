@@ -13,7 +13,7 @@ class PromosModel {
   String averageRating;
   int ratingCount;
   List<WooCategories> categories;
-  List<WooProdImages> images;
+  List<ProdImages> images;
 
   PromosModel(
     { this.id,
@@ -54,9 +54,9 @@ class PromosModel {
       });
     }
     if (json['images'] != null) {
-      images = new List<WooProdImages>();
+      images = new List<ProdImages>();
       json['images'].forEach((v) {
-        images.add(new WooProdImages.fromJson(v));
+        images.add(new ProdImages.fromJson(v));
       });
     }
   }
@@ -108,13 +108,13 @@ class WooCategories {
   }
 }
 
-class WooProdImages {
+class ProdImages {
   int id;
   String src;
 
-  WooProdImages({ this.id, this.src});
+  ProdImages({ this.id, this.src});
 
-  WooProdImages.fromJson(Map<String, dynamic> json) {
+  ProdImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     src = json['src'];
   }
@@ -127,8 +127,8 @@ class WooProdImages {
   }
 }
 
-List<WooProdImages> _imagesList = [
-  WooProdImages(
+List<ProdImages> _imagesList = [
+  ProdImages(
     id: 44,
     src: 'http://praemi.3.94.78.53.xip.io/wp-content/uploads/sites/3/2020/12/hamburger-2253349_1280.jpg',
   ),
