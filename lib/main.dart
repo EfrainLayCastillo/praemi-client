@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:praemiclient/bloc/SimpleBlocObserver.dart';
 import 'package:praemiclient/screens/PromosListScreen.dart/PromoScreen.dart';
 
 void main() {
+  Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 

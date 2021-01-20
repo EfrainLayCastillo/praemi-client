@@ -12,7 +12,7 @@ final PromosModel promosModel;
     return _buildCoffeeItem(
       productName: promosModel.name,
       price: '33',
-      productType: promosModel.type,
+      productType: promosModel.categories[0].name,
       imgPath: promosModel.images[0].src,
     );
   }

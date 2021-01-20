@@ -1,11 +1,7 @@
 class PromosModel {
-  String id;
+  int id;
   String name;
-  String slug;
   String permalink;
-  String dateCreated;
-  String dateModified;
-  String type;
   String status;
   bool featured;
   String description;
@@ -13,23 +9,16 @@ class PromosModel {
   String sku;
   String price;
   String regularPrice;
-  String salePrice;
-  Null stockQuantity;
   String stockStatus;
   String averageRating;
   int ratingCount;
-  List<int> relatedIds;
-  List<Categories> categories;
-  List<Images> images;
+  List<WooCategories> categories;
+  List<WooProdImages> images;
 
   PromosModel(
     { this.id,
       this.name,
-      this.slug,
       this.permalink,
-      this.dateCreated,
-      this.dateModified,
-      this.type,
       this.status,
       this.featured,
       this.description,
@@ -37,12 +26,9 @@ class PromosModel {
       this.sku,
       this.price,
       this.regularPrice,
-      this.salePrice,
-      this.stockQuantity,
       this.stockStatus,
       this.averageRating,
       this.ratingCount,
-      this.relatedIds,
       this.categories,
       this.images,
     });
@@ -50,11 +36,7 @@ class PromosModel {
   PromosModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    slug = json['slug'];
     permalink = json['permalink'];
-    dateCreated = json['date_created'];
-    dateModified = json['date_modified'];
-    type = json['type'];
     status = json['status'];
     featured = json['featured'];
     description = json['description'];
@@ -62,22 +44,19 @@ class PromosModel {
     sku = json['sku'];
     price = json['price'];
     regularPrice = json['regular_price'];
-    salePrice = json['sale_price'];
-    stockQuantity = json['stock_quantity'];
     stockStatus = json['stock_status'];
     averageRating = json['average_rating'];
     ratingCount = json['rating_count'];
-    relatedIds = json['related_ids'].cast<int>();
     if (json['categories'] != null) {
-      categories = new List<Categories>();
+      categories = new List<WooCategories>();
       json['categories'].forEach((v) {
-        categories.add(new Categories.fromJson(v));
+        categories.add(new WooCategories.fromJson(v));
       });
     }
     if (json['images'] != null) {
-      images = new List<Images>();
+      images = new List<WooProdImages>();
       json['images'].forEach((v) {
-        images.add(new Images.fromJson(v));
+        images.add(new WooProdImages.fromJson(v));
       });
     }
   }
@@ -86,11 +65,7 @@ class PromosModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['slug'] = this.slug;
     data['permalink'] = this.permalink;
-    data['date_created'] = this.dateCreated;
-    data['date_modified'] = this.dateModified;
-    data['type'] = this.type;
     data['status'] = this.status;
     data['featured'] = this.featured;
     data['description'] = this.description;
@@ -98,12 +73,9 @@ class PromosModel {
     data['sku'] = this.sku;
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
-    data['sale_price'] = this.salePrice;
-    data['stock_quantity'] = this.stockQuantity;
     data['stock_status'] = this.stockStatus;
     data['average_rating'] = this.averageRating;
     data['rating_count'] = this.ratingCount;
-    data['related_ids'] = this.relatedIds;
     if (this.categories != null) {
       data['categories'] = this.categories.map((v) => v.toJson()).toList();
     }
@@ -114,14 +86,14 @@ class PromosModel {
   }
 }
 
-class Categories {
+class WooCategories {
   int id;
   String name;
   String slug;
 
-  Categories({this.id, this.name, this.slug});
+  WooCategories({this.id, this.name, this.slug});
 
-  Categories.fromJson(Map<String, dynamic> json) {
+  WooCategories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];
@@ -136,71 +108,72 @@ class Categories {
   }
 }
 
-class Images {
+class WooProdImages {
   int id;
   String src;
-  String name;
 
-  Images({ this.id, this.src, this.name});
+  WooProdImages({ this.id, this.src});
 
-  Images.fromJson(Map<String, dynamic> json) {
+  WooProdImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     src = json['src'];
-    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['src'] = this.src;
-    data['name'] = this.name;
     return data;
   }
 }
 
-List<Images> _imagesList = [
-  Images(
+List<WooProdImages> _imagesList = [
+  WooProdImages(
     id: 44,
     src: 'http://praemi.3.94.78.53.xip.io/wp-content/uploads/sites/3/2020/12/hamburger-2253349_1280.jpg',
-    name: 'name'
   ),
+];
+
+List<WooCategories> _categoriesList = [
+  WooCategories( id: 44, name: 'Hogar', slug: 'hogar' ),
+  WooCategories( id: 55, name: 'Aventura', slug: 'aventura')
 ];
 
 final List<PromosModel> listPromosModel = [
   PromosModel(
-      id: 'promo1',
+      id: 44534,
       name: 'Descuento de 30% en comidas y postres',
-      type: 'Restaurante',
+      categories: _categoriesList,      
       images: _imagesList,
   ),
   PromosModel(
-      id: 'promo1',
+      id: 44534,
       name: 'Descuento de 30% en comidas y postres',
-      type: 'Restaurante',
+      categories: _categoriesList,
       images: _imagesList,
   ),
   PromosModel(
-      id: 'promo1',
+      id: 44534,
       name: 'Descuento de 30% en comidas y postres',
-      type: 'Restaurante',
+      categories: _categoriesList,
       images: _imagesList,
   ),
   PromosModel(
-      id: 'promo1',
+      id: 44534,
       name: 'Descuento de 30% en comidas y postres',
-      type: 'Restaurante',
+      categories: _categoriesList,
       images: _imagesList,
   ),
    PromosModel(
-      id: 'promo1',
+      id: 44534,
       name: 'Descuento de 30% en comidas y postres',
-      type: 'Restaurante',
+      categories: _categoriesList,
       images: _imagesList,
   ),
    PromosModel(
-      id: 'promo1',
+      id: 44534,
       name: 'Descuento de 30% en comidas y postres',
-      type: 'Restaurante',
+      categories: _categoriesList,
       images: _imagesList,
   ),
 ];
