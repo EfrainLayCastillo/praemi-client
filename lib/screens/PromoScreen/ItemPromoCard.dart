@@ -13,7 +13,7 @@ class ItemPromoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      shape:  RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: InkWell(
@@ -23,15 +23,15 @@ class ItemPromoCard extends StatelessWidget {
           children: [
             ImageItemPromo(imageSrc: promosModel.images[0].src),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.00, horizontal: 10.00),
+              padding: const EdgeInsets.symmetric(
+                  vertical: 10.00, horizontal: 10.00),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ContentItemPromo( 
-                    productName: promosModel.name, 
-                    productCategory: promosModel.categories[0].name
-                  ),
+                  ContentItemPromo(
+                      productName: promosModel.name,
+                      productCategory: promosModel.categories[0].name),
                   Divider(
                     height: 20,
                     color: Colors.grey[400],
@@ -39,8 +39,8 @@ class ItemPromoCard extends StatelessWidget {
                     indent: 5,
                     endIndent: 5,
                   ),
-                  StarDisplay(value: 4),
-                  // FooterItemPromo()
+                  //StarDisplay(value: 4),
+                  FooterItemPromo(reviwsCount: promosModel.ratingCount,)
                 ],
               ),
             )
@@ -61,13 +61,10 @@ class ImageItemPromo extends StatelessWidget {
       height: 180.0,
       width: 225.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0)
-        ),
-        image: DecorationImage(
-          image: NetworkImage(imageSrc), fit: BoxFit.cover)
-      ),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+          image: DecorationImage(
+              image: NetworkImage(imageSrc), fit: BoxFit.cover)),
     );
   }
 }
@@ -82,13 +79,20 @@ class ContentItemPromo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text( productCategory.toUpperCase(),
-          style: TextStyle( fontFamily: 'Raleway', fontSize: 13.0, color: Colors.grey ),
+        Text(
+          productCategory.toUpperCase(),
+          style: TextStyle(
+              fontFamily: 'Raleway', fontSize: 13.0, color: Colors.grey),
         ),
         const SizedBox(height: 3.0),
-        Text( productName, maxLines: 2,
+        Text(
+          productName,
+          maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle( fontFamily: 'Raleway', fontWeight: FontWeight.w600, fontSize: 16.0 ),
+          style: TextStyle(
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+              fontSize: 16.0),
         ),
       ],
     );
@@ -97,14 +101,18 @@ class ContentItemPromo extends StatelessWidget {
 
 class FooterItemPromo extends StatelessWidget {
 
+  final int reviwsCount; 
+  final double averageRating; 
+  const FooterItemPromo({this.reviwsCount, this.averageRating});
+
   @override
   Widget build(BuildContext context) {
-    return ButtonBar(
-      alignment: MainAxisAlignment.end,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        OutlineButton(
-          onPressed: () { print('Received click'); },
-          child: Text('Canjear Promo'),
+        StarDisplay(value: 4),
+        Text( '$reviwsCount reviews',
+          style: TextStyle( fontFamily: 'Raleway', fontSize: 13.0, color: Colors.grey ),
         )
       ],
     );
@@ -113,7 +121,9 @@ class FooterItemPromo extends StatelessWidget {
 
 class StarDisplay extends StatelessWidget {
   final int value;
-  const StarDisplay({Key key, this.value = 0}) : assert(value != null), super(key: key);
+  const StarDisplay({Key key, this.value = 0})
+      : assert(value != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -123,13 +133,14 @@ class StarDisplay extends StatelessWidget {
         size: 20,
       ),
       child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        return Icon(
-          index < value ? Icons.star : Icons.star_border,
-        );
-      }),
-    ),
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(5, (index) {
+          return Icon(
+            index < value ? Icons.star : Icons.star_border,
+          );
+        }),
+        
+      ),
     );
   }
 }
