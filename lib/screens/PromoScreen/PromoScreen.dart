@@ -16,7 +16,7 @@ class PromoScreen extends StatelessWidget {
         ) 
       ],
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        backgroundColor: Colors.grey[50],
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -27,7 +27,7 @@ class PromoScreen extends StatelessWidget {
               pinned: true,
             ),
             SliverPadding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               sliver: PromoGridView(),
             )
           ],

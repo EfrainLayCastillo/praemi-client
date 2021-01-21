@@ -30,7 +30,7 @@ class _PromoGridViewState extends State<PromoGridView> {
     var _crossAxisCount = 2;
     var _width = (_screenWidth - ((_crossAxisCount - 1) * _crossAxisSpacing)) /
         _crossAxisCount;
-    var cellHeight = 320;
+    var cellHeight = 340;
     var _aspectRatio = _width / cellHeight;
     print(_aspectRatio);
 
@@ -46,7 +46,7 @@ class _PromoGridViewState extends State<PromoGridView> {
               childCount: state.promosList.length
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 10,
+                mainAxisSpacing: _crossAxisSpacing,
                 crossAxisSpacing: _crossAxisSpacing,
                 crossAxisCount: _crossAxisCount,
                 childAspectRatio: _aspectRatio
@@ -63,8 +63,12 @@ class LoadingSliverAdapter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Center(
-        child: CustomCircularLoadingIndicator()
+      child: Container(
+        height: MediaQuery.of(context).size.height - 50,
+        width: MediaQuery.of(context).size.width,
+        child: Center(
+          child: CustomCircularLoadingIndicator()
+        ),
       )
     );
   }
