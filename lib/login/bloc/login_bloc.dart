@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:praemiclient/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -62,11 +63,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _authenticationRepository.logIn(
+        final res = await _authenticationRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+        final data = jsonDecode(res) as Map<String, dynamic>;
+        print(data);
+        if (data['status'] != 200) {
+          addError(data['message']);
+        } else {
+          addError(null);
+          AuthenticationRepository.setToken(data['token'], data['userEmail']);
+          yield state.copyWith(status: FormzStatus.submissionSuccess);
+        }
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }
