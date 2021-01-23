@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:praemiclient/models/promos_model.dart';
+import 'package:praemiclient/screens/DetailsPromoScreen/DetailsPromoScreen.dart';
 
 class ItemPromoCard extends StatelessWidget {
   final PromosModel promosModel;
@@ -17,7 +18,13 @@ class ItemPromoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: InkWell(
-        onTap: () => {},
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute( 
+            builder: (context) => DetailsPromoScreen(
+              promosModelItem: promosModel,
+            )
+          )
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

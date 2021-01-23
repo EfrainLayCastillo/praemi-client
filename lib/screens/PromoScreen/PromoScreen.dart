@@ -22,7 +22,7 @@ class PromoScreen extends StatelessWidget {
             SliverAppBar(
               title: Text('Praemi',
               style: Theme.of(context).textTheme.headline6.copyWith( color: Colors.white )),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               brightness: Brightness.dark,
               pinned: true,
             ),
