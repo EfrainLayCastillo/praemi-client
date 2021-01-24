@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:praemiclient/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:praemiclient/login/login.dart';
-import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
-import 'package:praemiclient/login/models/models.dart';
+import 'package:praemiclient/repositories/authentication_repository.dart';
+import 'package:praemiclient/models/models.dart';
+import 'package:formz/formz.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

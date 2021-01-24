@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import '../../authentication_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import '../../user_repository.dart';
+import 'package:equatable/equatable.dart';
+import 'package:praemiclient/repositories/authentication_repository.dart';
+import 'package:praemiclient/repositories/user_repository.dart';
 import 'package:praemiclient/models/models.dart';
 
 part 'authentication_event.dart';

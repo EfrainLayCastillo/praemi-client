@@ -1,13 +1,12 @@
-import 'package:praemiclient/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:praemiclient/authentication/authentication.dart';
-import 'package:praemiclient/home/home.dart';
-import 'package:praemiclient/login/view/login_page.dart';
-import 'package:praemiclient/splash/splash.dart';
-import 'package:praemiclient/user_repository.dart';
+import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
+import 'repositories/authentication_repository.dart';
+import 'repositories/user_repository.dart';
+import 'screens/SplashScreen/splash_screen.dart';
+import 'screens/LoginScreen/login_screen.dart';
+import 'package:praemiclient/screens/PromoScreen/PromoScreen.dart';
 
-import 'home/view/home_page.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -49,6 +48,12 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Praemi App Client',
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          primaryColor: Colors.blue[800]),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -56,7 +61,8 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  PromoScreen.route(),
+
                   (route) => false,
                 );
                 break;

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:uuid/uuid.dart';
 
-import 'models/models.dart';
+import 'package:praemiclient/models/models.dart';
 
 class UserRepository {
   User _user;

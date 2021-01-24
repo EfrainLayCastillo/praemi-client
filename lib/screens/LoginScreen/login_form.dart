@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:praemiclient/login/bloc/login_bloc.dart';
+import 'package:praemiclient/bloc/login_bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   @override

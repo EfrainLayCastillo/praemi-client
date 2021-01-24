@@ -1,6 +1,6 @@
-import 'package:praemiclient/authentication_repository.dart';
+import 'package:praemiclient/repositories/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:praemiclient/login/bloc/login_bloc.dart';
+import 'package:praemiclient/bloc/login_bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'login_form.dart';
