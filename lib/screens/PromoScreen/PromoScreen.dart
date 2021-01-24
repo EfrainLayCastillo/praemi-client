@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
 import 'package:praemiclient/screens/PromoScreen/PromoGridView.dart';
+import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 
 class PromoScreen extends StatelessWidget {
   static Route route() {
@@ -32,6 +33,15 @@ class PromoScreen extends StatelessWidget {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   brightness: Brightness.dark,
                   pinned: true,
+                  actions: [
+                    IconButton(
+                        icon: Icon(Icons.logout),
+                        onPressed: () {
+                          context
+                              .read<AuthenticationBloc>()
+                              .add(AuthenticationLogoutRequested());
+                        })
+                  ],
                 ),
                 SliverPadding(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
