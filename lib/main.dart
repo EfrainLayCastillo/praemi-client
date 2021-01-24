@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/SimpleBlocObserver.dart';
-import 'package:praemiclient/screens/PromoScreen/PromoScreen.dart';
+import 'repositories/authentication_repository.dart';
+import 'repositories/user_repository.dart';
+import 'app.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Praemi App Client',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: Colors.blue[800]
-      ),
-      home: PromoScreen(),
-    );
-  }
+  runApp(App(
+    authenticationRepository: AuthenticationRepository(),
+    userRepository: UserRepository(),
+  ));
 }
