@@ -43,7 +43,7 @@ class InfoPromoDetails extends StatelessWidget {
             UtilsFn.removeAllHtmlTags(promosModelItem.description), 
             style: TextStyle( height: 1.5, color: Colors.black87, fontSize: 16),
           ),
-          SizedBox(height: size.height * 0.2),
+          SizedBox(height: size.height * 0.3),
           // Free space  10% of total height
         ],
       ),

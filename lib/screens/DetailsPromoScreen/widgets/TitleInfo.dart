@@ -61,13 +61,14 @@ class TitleInfo extends StatelessWidget {
         height: 65,
         width: 55,
         color: Colors.blue[800],
-        child: Text(
-          "\$$price",
-          style: Theme.of(context).textTheme.headline6.copyWith(
-            color: Colors.white, 
-            fontWeight: FontWeight.bold
-          ),
-        ),
+        // child: Text(
+        //   "\$$price",
+        //   style: Theme.of(context).textTheme.headline6.copyWith(
+        //     color: Colors.white, 
+        //     fontWeight: FontWeight.bold
+        //   ),
+        // ),
+        child: Icon(Icons.storefront, color: Colors.white, size: 30),
       ),
     );
   }
