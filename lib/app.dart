@@ -7,6 +7,7 @@ import 'screens/SplashScreen/splash_screen.dart';
 import 'screens/LoginScreen/login_screen.dart';
 import 'package:praemiclient/screens/PromoScreen/PromoScreen.dart';
 
+
 class App extends StatelessWidget {
   const App({
     Key key,
@@ -61,6 +62,7 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   PromoScreen.route(),
+
                   (route) => false,
                 );
                 break;
