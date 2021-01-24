@@ -7,7 +7,7 @@ class CreateCodeQRButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.85,
-      height: 50,
+      height: 53,
       child: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => {},
@@ -15,7 +15,7 @@ class CreateCodeQRButton extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5),
           child: Text(
             'Generar codigo promocional'.toUpperCase(), 
-            style: TextStyle(color: Colors.white,) 
+            style: TextStyle(color: Colors.white, letterSpacing: 0.9) 
           ),
         ),
         icon: Icon(
