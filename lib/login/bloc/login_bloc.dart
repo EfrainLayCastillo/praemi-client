@@ -69,11 +69,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
         final data = jsonDecode(res) as Map<String, dynamic>;
         print(data);
-        if (data['status'] != 200) {
+        if (data["data"]) {
           addError(data['message']);
         } else {
           addError(null);
-          AuthenticationRepository.setToken(data['token'], data['userEmail']);
+          AuthenticationRepository.setToken(data['token'], data['user_email']);
           yield state.copyWith(status: FormzStatus.submissionSuccess);
         }
       } on Exception catch (_) {

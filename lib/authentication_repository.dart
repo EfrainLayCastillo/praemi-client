@@ -30,23 +30,26 @@ class AuthenticationRepository {
         'username': username,
         'password': password,
       };
+      final Map<String, dynamic> errorData = Map<String, dynamic>();
       var res = await http.post("$baseURL/jwt-auth/v1/token", body: body);
-      print(res.body);
-      await Future.delayed(
-        const Duration(milliseconds: 300),
-        () => _controller.add(AuthenticationStatus.authenticated),
-      );
 
+      if (res.statusCode == 200) {
+        await Future.delayed(
+          const Duration(milliseconds: 300),
+          () => _controller.add(AuthenticationStatus.authenticated),
+        );
+        return res?.body;
+      }
       return res?.body;
     } finally {}
   }
 
   static setToken(String token, String userEmail) async {
     _AuthData data = _AuthData(token, userEmail);
-    return await SESSION.set('tokens', data);
+    await SESSION.set('tokens', data);
   }
 
-  static getToken() async {
+  static Future<Map<String, dynamic>> getToken() async {
     return await SESSION.get('tokens');
   }
 
