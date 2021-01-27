@@ -22,7 +22,7 @@ class ViewCodeQRScreen extends StatelessWidget {
               width: _sizeScreen.width,
               child: Center(
                 child: QrImage(
-                  data: "name:michael,items[23],local:34",
+                  data: '{"promoId":"34", "userId":"32", "token":"alskdflasdk", "vendorId": "10"}',
                   version: QrVersions.auto,
                   size: _sizeScreen.width * 0.6,
                   gapless: false,

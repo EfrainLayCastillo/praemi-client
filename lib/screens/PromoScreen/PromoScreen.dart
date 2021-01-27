@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
 import 'package:praemiclient/screens/PromoScreen/PromoGridView.dart';
+import 'package:praemiclient/screens/ScanQRScreen/ScanQRScreen.dart';
 
 class PromoScreen extends StatelessWidget {
   final PromosRepository _promosRepository = new PromosRepository();
@@ -20,11 +21,24 @@ class PromoScreen extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              title: Text('Praemi',
-              style: Theme.of(context).textTheme.headline6.copyWith( color: Colors.white )),
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              centerTitle: true,
+              title: Image(
+                image: AssetImage('assets/logoPraemi.png'),
+                width: 120,
+              ),
+              backgroundColor: Color(0xFF073045),
               brightness: Brightness.dark,
               pinned: true,
+              elevation: 2,
+              forceElevated: true,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.qr_code_scanner), 
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(  builder: (context) => ScanQRScreen() )
+                  ),
+                )
+              ],
             ),
             SliverPadding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),

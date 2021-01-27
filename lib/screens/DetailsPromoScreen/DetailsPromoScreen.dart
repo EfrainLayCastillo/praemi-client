@@ -26,7 +26,7 @@ class DetailsPromoScreen extends StatelessWidget {
       ],
         ),
       floatingActionButton: CreateCodeQRButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat
     );
   }
 }
