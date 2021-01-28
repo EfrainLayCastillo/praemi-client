@@ -9,8 +9,6 @@ class PromosModel {
   String sku;
   String price;
   String regularPrice;
-  String vendorId;
-  String storeName;
   String stockStatus;
   String averageRating;
   int ratingCount;
@@ -28,8 +26,6 @@ class PromosModel {
       this.sku,
       this.price,
       this.regularPrice,
-      this.vendorId,
-      this.storeName,
       this.stockStatus,
       this.averageRating,
       this.ratingCount,
@@ -48,8 +44,6 @@ class PromosModel {
     sku = json['sku'];
     price = json['price'];
     regularPrice = json['regular_price'];
-    vendorId = json['vendor'];
-    storeName = json['store_name'];
     stockStatus = json['stock_status'];
     averageRating = json['average_rating'];
     ratingCount = json['rating_count'];
@@ -79,8 +73,6 @@ class PromosModel {
     data['sku'] = this.sku;
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
-    data['vendor'] = this.vendorId;
-    data['store_name'] = this.storeName;
     data['stock_status'] = this.stockStatus;
     data['average_rating'] = this.averageRating;
     data['rating_count'] = this.ratingCount;

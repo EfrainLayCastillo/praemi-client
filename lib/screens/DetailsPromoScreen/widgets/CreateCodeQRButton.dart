@@ -12,8 +12,7 @@ class CreateCodeQRButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     DataCodeQrModel _dataCodeQrModel = DataCodeQrModel( 
-      promoId: promosModel.id, 
-      vendorId: 'temp', 
+      promoId: promosModel.id,
       userId: 'test', 
       tokenAuth: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJp'
     );
