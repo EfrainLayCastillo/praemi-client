@@ -9,6 +9,8 @@ class PromosModel {
   String sku;
   String price;
   String regularPrice;
+  String vendorId;
+  String storeName;
   String stockStatus;
   String averageRating;
   int ratingCount;
@@ -26,6 +28,8 @@ class PromosModel {
       this.sku,
       this.price,
       this.regularPrice,
+      this.vendorId,
+      this.storeName,
       this.stockStatus,
       this.averageRating,
       this.ratingCount,
@@ -44,6 +48,8 @@ class PromosModel {
     sku = json['sku'];
     price = json['price'];
     regularPrice = json['regular_price'];
+    vendorId = json['vendor'];
+    storeName = json['store_name'];
     stockStatus = json['stock_status'];
     averageRating = json['average_rating'];
     ratingCount = json['rating_count'];
@@ -73,6 +79,8 @@ class PromosModel {
     data['sku'] = this.sku;
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
+    data['vendor'] = this.vendorId;
+    data['store_name'] = this.storeName;
     data['stock_status'] = this.stockStatus;
     data['average_rating'] = this.averageRating;
     data['rating_count'] = this.ratingCount;
@@ -126,55 +134,4 @@ class ProdImages {
     return data;
   }
 }
-
-List<ProdImages> _imagesList = [
-  ProdImages(
-    id: 44,
-    src: 'http://praemi.3.94.78.53.xip.io/wp-content/uploads/sites/3/2020/12/hamburger-2253349_1280.jpg',
-  ),
-];
-
-List<WooCategories> _categoriesList = [
-  WooCategories( id: 44, name: 'Hogar', slug: 'hogar' ),
-  WooCategories( id: 55, name: 'Aventura', slug: 'aventura')
-];
-
-final List<PromosModel> listPromosModel = [
-  PromosModel(
-      id: 44534,
-      name: 'Descuento de 30% en comidas y postres',
-      categories: _categoriesList,      
-      images: _imagesList,
-  ),
-  PromosModel(
-      id: 44534,
-      name: 'Descuento de 30% en comidas y postres',
-      categories: _categoriesList,
-      images: _imagesList,
-  ),
-  PromosModel(
-      id: 44534,
-      name: 'Descuento de 30% en comidas y postres',
-      categories: _categoriesList,
-      images: _imagesList,
-  ),
-  PromosModel(
-      id: 44534,
-      name: 'Descuento de 30% en comidas y postres',
-      categories: _categoriesList,
-      images: _imagesList,
-  ),
-   PromosModel(
-      id: 44534,
-      name: 'Descuento de 30% en comidas y postres',
-      categories: _categoriesList,
-      images: _imagesList,
-  ),
-   PromosModel(
-      id: 44534,
-      name: 'Descuento de 30% en comidas y postres',
-      categories: _categoriesList,
-      images: _imagesList,
-  ),
-];
 

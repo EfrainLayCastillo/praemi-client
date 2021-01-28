@@ -6,8 +6,8 @@ import 'package:praemiclient/screens/DetailsPromoScreen/widgets/InfoPromoDetails
 
 class DetailsPromoScreen extends StatelessWidget {
   final PromosModel promosModelItem;
-
-  const DetailsPromoScreen({Key key, @required this.promosModelItem}) : super(key: key);
+  const DetailsPromoScreen({Key key, @required this.promosModelItem})
+   : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class DetailsPromoScreen extends StatelessWidget {
         )
       ],
         ),
-      floatingActionButton: CreateCodeQRButton(),
+      floatingActionButton: CreateCodeQRButton(promosModel: promosModelItem),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat
     );
   }
