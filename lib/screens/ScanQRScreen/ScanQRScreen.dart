@@ -17,7 +17,7 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
   Barcode result;
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-
+  bool isPauseCamera = false;
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -32,86 +32,34 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
+      appBar: AppBar(
+        title: Text('Escanea tu codigo'),
+      ),
+      body: Stack(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
-                  else
-                    Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: RaisedButton(
-                            onPressed: () => setState(() {
-                                  controller?.toggleFlash();
-                                }),
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: RaisedButton(
-                            onPressed: () => setState(() {
-                                  controller?.flipCamera();
-                                }),
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data)}');
-                                } else {
-                                  return Text('loading');
-                                }
-                              },
-                            )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: RaisedButton(
-                          onPressed: () {
-                            controller?.pauseCamera();
-                          },
-                          child: Text('pause', style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: RaisedButton(
-                          onPressed: () {
-                            controller?.resumeCamera();
-                          },
-                          child: Text('resume', style: TextStyle(fontSize: 20)),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          Container( 
+            width: _size.width,
+            height: _size.height,
+            child: _buildQrView(context)
+          ),
+          Positioned(
+            bottom: 30,
+            width: _size.width,
+            child: Center(child: _controlScanner(_size))
+          ),
+          Positioned(
+            top: 0,
+            child: Container(
+              alignment: Alignment.center,
+              width: _size.width,
+              height: 50,
+              color: Colors.blueGrey.withOpacity(0.5),
+              child: (result != null) ?
+                Text( 'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}') :
+                Text('Scan a code'),
+            )
           )
         ],
       ),
@@ -120,10 +68,8 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+    Size _size = MediaQuery.of(context).size;
+    var scanArea = _size.width * 0.6;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
@@ -132,11 +78,69 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
       onQRViewCreated: _onQRViewCreated,
       formatsAllowed: [BarcodeFormat.qrcode],
       overlay: QrScannerOverlayShape(
-        borderColor: Colors.red,
+        borderColor: Colors.blue[800],
         borderRadius: 10,
         borderLength: 30,
-        borderWidth: 10,
+        borderWidth: 5,
         cutOutSize: scanArea,
+      ),
+    );
+  }
+
+  Widget _controlScanner(Size size){
+    return Container(
+      width: size.width * 0.9,
+      height: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.grey.withOpacity(0.6),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            onPressed: ()=> setState( () { controller?.toggleFlash(); }),
+            icon: FutureBuilder(
+              future: controller?.getFlashStatus(),
+              builder: (context, snapshot) {
+                return Icon( snapshot.data == true ? 
+                  Icons.flash_on : Icons.flash_off, color: Colors.white, size: 30 
+                );
+              },
+            ) 
+          ),
+          IconButton(
+            onPressed: ()  => {
+                if(isPauseCamera){
+                  setState(() { 
+                    isPauseCamera = false;
+                    controller?.resumeCamera();
+                  })
+                }else {
+                  setState(() { 
+                    isPauseCamera = true;
+                    controller?.pauseCamera();
+                  })
+                }
+            },
+            icon: FutureBuilder(
+              future: controller?.resumeCamera(),
+              builder: (context, snapshot) {
+                return Icon( 
+                  snapshot.data != null ? 
+                  Icons.pause_circle_filled : 
+                  Icons.play_circle_fill, color: Colors.white, size: 30, 
+                );
+              },
+            ) 
+          ),
+          IconButton(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            onPressed: ()=> setState( () { controller?.flipCamera(); }),
+            icon: Icon(Icons.flip_camera_android_rounded, color: Colors.white, size: 30), 
+          ),
+        ],
       ),
     );
   }

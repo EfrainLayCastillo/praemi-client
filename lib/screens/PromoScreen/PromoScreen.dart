@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
-import 'package:praemiclient/screens/PromoScreen/PromoGridView.dart';
+import 'package:praemiclient/screens/PromoScreen/widgets/PromoGridView.dart';
 import 'package:praemiclient/screens/ScanQRScreen/ScanQRScreen.dart';
 
 class PromoScreen extends StatelessWidget {
