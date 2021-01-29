@@ -1,13 +1,16 @@
-import 'package:praemiclient/repositories/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/login_bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:praemiclient/repositories/user_repository.dart';
 
 import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => LoginPage());
+  final UserRepository userRepository;
+  LoginPage({this.userRepository});
+  static Route route(userRepository) {
+    return MaterialPageRoute<void>(
+        builder: (_) => LoginPage(userRepository: userRepository));
   }
 
   @override
@@ -16,13 +19,8 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: BlocProvider(
-          create: (context) {
-            return LoginBloc(
-              authenticationRepository:
-                  RepositoryProvider.of<AuthenticationRepository>(context),
-            );
-          },
+        child: BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(userRepository: userRepository),
           child: LoginForm(),
         ),
       ),

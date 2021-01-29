@@ -15,4 +15,7 @@ A few resources to get you started if this is your first Flutter project:
 - User#2
   - User: JohnSmith
   - Password: Password01
+- User#3
+  - User: efrainlay
+  - Password: 2021Pass#/*-
 

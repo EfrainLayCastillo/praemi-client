@@ -3,72 +3,64 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import 'package:praemiclient/repositories/authentication_repository.dart';
 import 'package:praemiclient/repositories/user_repository.dart';
-import 'package:praemiclient/models/models.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc({
-    @required AuthenticationRepository authenticationRepository,
-    @required UserRepository userRepository,
-  })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
-        _authenticationRepository = authenticationRepository,
-        _userRepository = userRepository,
-        super(const AuthenticationState.unknown()) {
-    _authenticationStatusSubscription = _authenticationRepository.status.listen(
-      (status) => add(AuthenticationStatusChanged(status)),
-    );
-  }
-
-  final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
-  StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
+
+  AuthenticationBloc({
+    @required UserRepository userRepository,
+  })  : assert(userRepository != null),
+        _userRepository = userRepository,
+        super(Uninitialized());
 
   @override
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
-    if (event is AuthenticationStatusChanged) {
-      yield await _mapAuthenticationStatusChangedToState(event);
-    } else if (event is AuthenticationLogoutRequested) {
-      _authenticationRepository.logOut();
+    if (event is AppStarted) {
+      yield* _mapAppStartedToState();
+    } else if (event is LoggedIn) {
+      yield* _mapLoggedInToState();
+    } else if (event is LoggedOut) {
+      yield* _mapLoggedOutToState();
     }
   }
 
-  @override
-  Future<void> close() {
-    _authenticationStatusSubscription?.cancel();
-    _authenticationRepository.dispose();
-    return super.close();
-  }
-
-  Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
-    AuthenticationStatusChanged event,
-  ) async {
-    switch (event.status) {
-      case AuthenticationStatus.unauthenticated:
-        return const AuthenticationState.unauthenticated();
-      case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
-        return user != null
-            ? AuthenticationState.authenticated(user)
-            : const AuthenticationState.unauthenticated();
-      default:
-        return const AuthenticationState.unknown();
-    }
-  }
-
-  Future<User> _tryGetUser() async {
+  Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final user = await _userRepository.getUser();
-      return user;
-    } on Exception {
-      return null;
+      final isSignedIn = await _userRepository.verifyToken();
+      print(isSignedIn);
+      if (isSignedIn) {
+        yield Authenticated(await _userRepository.getUser());
+      } else {
+        yield Unauthenticated();
+      }
+    } catch (_) {
+      yield Unauthenticated();
     }
+  }
+
+  Stream<AuthenticationState> _mapLoggedInToState() async* {
+    try {
+      final isSignedIn = await _userRepository.verifyToken();
+      print(isSignedIn);
+      if (isSignedIn) {
+        yield Authenticated(await _userRepository.getUser());
+      } else {
+        yield Unauthenticated();
+      }
+    } catch (_) {
+      yield Unauthenticated();
+    }
+  }
+
+  Stream<AuthenticationState> _mapLoggedOutToState() async* {
+    _userRepository.logOut();
+    yield Unauthenticated();
   }
 }

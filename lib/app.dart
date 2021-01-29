@@ -1,41 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
-import 'repositories/authentication_repository.dart';
 import 'repositories/user_repository.dart';
 import 'screens/SplashScreen/splash_screen.dart';
 import 'screens/LoginScreen/login_screen.dart';
 import 'package:praemiclient/screens/PromoScreen/PromoScreen.dart';
 
-
 class App extends StatelessWidget {
+  final UserRepository userRepository;
   const App({
     Key key,
-    @required this.authenticationRepository,
     @required this.userRepository,
-  })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
+  })  : assert(userRepository != null),
         super(key: key);
-
-  final AuthenticationRepository authenticationRepository;
-  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository,
-        ),
-        child: AppView(),
-      ),
+    return BlocProvider(
+      create: (context) =>
+          AuthenticationBloc(userRepository: userRepository)..add(AppStarted()),
+      child: AppView(userRepository: userRepository),
     );
   }
 }
 
 class AppView extends StatefulWidget {
+  UserRepository userRepository;
+  AppView({this.userRepository});
   @override
   _AppViewState createState() => _AppViewState();
 }
@@ -48,38 +39,46 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Praemi App Client',
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          primaryColor: Colors.blue[800]),
-      navigatorKey: _navigatorKey,
-      builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  PromoScreen.route(),
-
-                  (route) => false,
-                );
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
-                break;
-              default:
-                break;
+        debugShowCheckedModeBanner: false,
+        title: 'Praemi App Client',
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            primaryColor: Colors.blue[800]),
+        navigatorKey: _navigatorKey,
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is Unauthenticated) {
+              return LoginPage(
+                userRepository: widget.userRepository,
+              );
+              // _navigator.pushAndRemoveUntil<void>(
+              //   LoginPage.route(widget.userRepository),
+              //   (route) => false,
+              // );
             }
+            if (state is Authenticated) {
+              return PromoScreen();
+              // _navigator.pushAndRemoveUntil<void>(
+              //   PromoScreen.route(),
+              //   (route) => false,
+              // );
+            }
+            return LoadingCircle();
           },
-          child: child,
-        );
-      },
-      onGenerateRoute: (_) => SplashPage.route(),
+        ),
+        onGenerateRoute: (_) => SplashPage.route());
+  }
+}
+
+class LoadingCircle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: CircularProgressIndicator(),
+        alignment: Alignment(0.0, 0.0),
+      ),
     );
   }
 }

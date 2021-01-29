@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:praemiclient/bloc/login_bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
@@ -14,6 +15,9 @@ class LoginForm extends StatelessWidget {
             ..showSnackBar(
               const SnackBar(content: Text('Authentication Failure')),
             );
+        }
+        if (state.status.isSubmissionSuccess) {
+          BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
         }
       },
       child: Align(

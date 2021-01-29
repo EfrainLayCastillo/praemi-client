@@ -37,9 +37,7 @@ class PromoScreen extends StatelessWidget {
                     IconButton(
                         icon: Icon(Icons.logout),
                         onPressed: () {
-                          context
-                              .read<AuthenticationBloc>()
-                              .add(AuthenticationLogoutRequested());
+                          context.read<AuthenticationBloc>().add(LoggedOut());
                         })
                   ],
                 ),
