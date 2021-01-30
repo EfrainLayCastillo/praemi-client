@@ -4,21 +4,21 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:praemiclient/repositories/authentication_repository.dart';
 import 'package:praemiclient/models/models.dart';
 import 'package:formz/formz.dart';
+import 'package:praemiclient/repositories/user_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
-    @required AuthenticationRepository authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        _authenticationRepository = authenticationRepository,
+    @required UserRepository userRepository,
+  })  : assert(userRepository != null),
+        _userRepository = userRepository,
         super(const LoginState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final UserRepository _userRepository;
 
   @override
   Stream<LoginState> mapEventToState(
@@ -62,18 +62,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        final res = await _authenticationRepository.logIn(
+        final res = await _userRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
         final data = jsonDecode(res) as Map<String, dynamic>;
-        print(data);
-        if (data['status'] != 200) {
-          addError(data['message']);
-        } else {
-          addError(null);
-          AuthenticationRepository.setToken(data['token'], data['userEmail']);
+        print(data['token']);
+        if (data["success"] == true) {
+          UserRepository.setToken(data['token'], data['user_email']);
           yield state.copyWith(status: FormzStatus.submissionSuccess);
+        } else {
+          addError(data['message']);
         }
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);

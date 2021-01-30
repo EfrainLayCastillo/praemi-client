@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
+import 'package:praemiclient/models/models.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
 import 'package:praemiclient/screens/PromoScreen/PromoGridView.dart';
+import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 
 class PromoScreen extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => PromoScreen());
-  }
+  final User userData;
+  PromoScreen({@required this.userData});
 
   final PromosRepository _promosRepository = new PromosRepository();
 
@@ -24,7 +25,7 @@ class PromoScreen extends StatelessWidget {
             body: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  title: Text('Praemi',
+                  title: Text('Welcome to Praemi ${userData.username}',
                       style: Theme.of(context)
                           .textTheme
                           .headline6
@@ -32,6 +33,13 @@ class PromoScreen extends StatelessWidget {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   brightness: Brightness.dark,
                   pinned: true,
+                  actions: [
+                    IconButton(
+                        icon: Icon(Icons.logout),
+                        onPressed: () {
+                          context.read<AuthenticationBloc>().add(LoggedOut());
+                        })
+                  ],
                 ),
                 SliverPadding(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
