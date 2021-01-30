@@ -16,6 +16,7 @@ class ScannerCodeQr extends StatefulWidget {
 }
 
 class _ScannerCodeQrState extends State<ScannerCodeQr> {
+  ScannerQrBloc _scannerValidQrBloc;
   Barcode result;
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -47,7 +48,7 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
         if (state is SQrSuccessValidCode) {
           // BlocProvider.of<AuthenticationBloc>(context).add(ShowOnboarding(showOnboarding: true));
         }if(state is SQrLoading){
-          // BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
+          controller.pauseCamera();
         }
       },
       child: BlocBuilder<ScannerQrBloc, ScannerQrState>(
@@ -165,10 +166,14 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        if(scanData != null) { Vibration.vibrate(duration: 1000); }
-      });
+      // setState(() {
+      //   result = scanData;
+      //   if(scanData != null) { Vibration.vibrate(duration: 1000); }
+      // });
+      if(scanData != null){
+        Vibration.vibrate(duration: 1000);
+        _scannerValidQrBloc.add(ValidQrData(dataResult: scanData.code));
+      }
     });
   }
 
@@ -181,7 +186,7 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
     @override
   void initState() {
     super.initState();
-    BlocProvider.of<ScannerQrBloc>(context);
+    _scannerValidQrBloc = BlocProvider.of<ScannerQrBloc>(context);
   }
 
 

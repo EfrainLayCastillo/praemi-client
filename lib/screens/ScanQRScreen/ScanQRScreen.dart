@@ -10,7 +10,26 @@ class ScanQRScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => ScannerQrBloc(),
       child: Scaffold(
-        appBar: AppBar( title: Text('Escanea tu codigo')),
+        appBar: AppBar( 
+          title: Text('Escanea tu codigo'),
+          actions: [
+            BlocBuilder<ScannerQrBloc, ScannerQrState>(
+            builder: (context, state) {
+              if(state is SQrLoading){
+                return Container(
+                  width: 41,
+                  padding: EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xff00f594)),
+                    strokeWidth: 2,
+                  ),
+                );
+              }
+              return const SizedBox();
+            })
+          ],
+          ),
         body: ScannerCodeQr(),
       )
     );
