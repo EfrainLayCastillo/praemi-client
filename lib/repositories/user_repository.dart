@@ -16,8 +16,14 @@ class UserRepository {
     return await _query.queryVerifyToken();
   }
 
-  Future getUser() async {
-    return await _query.queryGetUser();
+  Future<User> getUser() async {
+    Map<String, dynamic> userData = await _query.queryGetUser();
+    print(userData["roles"][0]);
+    return User(
+        idUser: userData["id"],
+        username: userData["username"],
+        email: userData["email"],
+        roles: userData["roles"][0]);
   }
 
   Future<dynamic> logIn({

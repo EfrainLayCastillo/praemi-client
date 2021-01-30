@@ -1,3 +1,11 @@
+class User {
+  int idUser;
+  String username;
+  String email;
+  String roles;
+  User({this.idUser, this.username, this.email, this.roles});
+}
+
 class VerifyToken {
   String code;
   Data status;

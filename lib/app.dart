@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:praemiclient/screens/LocalScreen/LocalScreen.dart';
 import 'repositories/user_repository.dart';
 import 'screens/SplashScreen/splash_screen.dart';
 import 'screens/LoginScreen/login_screen.dart';
@@ -58,7 +59,14 @@ class _AppViewState extends State<AppView> {
               // );
             }
             if (state is Authenticated) {
-              return PromoScreen();
+              if (state.userModel.roles == "dc_vendor") {
+                return LocalScreen(
+                  userData: state.userModel,
+                );
+              }
+              return PromoScreen(
+                userData: state.userModel,
+              );
               // _navigator.pushAndRemoveUntil<void>(
               //   PromoScreen.route(),
               //   (route) => false,

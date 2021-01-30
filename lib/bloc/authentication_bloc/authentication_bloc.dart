@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:praemiclient/models/models.dart';
 import 'package:praemiclient/repositories/user_repository.dart';
 
 part 'authentication_event.dart';
@@ -36,7 +37,9 @@ class AuthenticationBloc
       final isSignedIn = await _userRepository.verifyToken();
       print(isSignedIn);
       if (isSignedIn) {
-        yield Authenticated(await _userRepository.getUser());
+        final User userData = await _userRepository.getUser();
+        print(userData);
+        yield Authenticated(userModel: userData);
       } else {
         yield Unauthenticated();
       }
@@ -50,7 +53,9 @@ class AuthenticationBloc
       final isSignedIn = await _userRepository.verifyToken();
       print(isSignedIn);
       if (isSignedIn) {
-        yield Authenticated(await _userRepository.getUser());
+        final User userData = await _userRepository.getUser();
+        print(userData);
+        yield Authenticated(userModel: userData);
       } else {
         yield Unauthenticated();
       }
