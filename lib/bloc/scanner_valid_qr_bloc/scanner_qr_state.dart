@@ -13,4 +13,6 @@ class SQrLoading extends ScannerQrState {}
 
 class SQrFailed extends ScannerQrState {}
 
-class SQrSuccess extends ScannerQrState {}
+class SQrSuccessValidCode extends ScannerQrState {}
+
+class SQrSuccessOrderCreated extends ScannerQrState {}
