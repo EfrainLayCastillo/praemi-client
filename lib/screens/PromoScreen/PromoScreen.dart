@@ -8,7 +8,7 @@ import 'package:praemiclient/utils/CustomAppBarPraemi.dart';
 
 class PromoScreen extends StatelessWidget {
   final User userData;
-  PromoScreen({@required this.userData});
+  PromoScreen({ this.userData});
 
   final PromosRepository _promosRepository = new PromosRepository();
 
