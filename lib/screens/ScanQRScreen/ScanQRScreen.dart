@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:vibration/vibration.dart';
 
 void main() => runApp(MaterialApp(home: ScanQRScreen()));
 
@@ -74,7 +75,7 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
-      cameraFacing: CameraFacing.front,
+      cameraFacing: CameraFacing.back,
       onQRViewCreated: _onQRViewCreated,
       formatsAllowed: [BarcodeFormat.qrcode],
       overlay: QrScannerOverlayShape(
@@ -124,15 +125,11 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
                   })
                 }
             },
-            icon: FutureBuilder(
-              future: controller?.resumeCamera(),
-              builder: (context, snapshot) {
-                return Icon( 
-                  snapshot.data != null ? 
-                  Icons.pause_circle_filled : 
-                  Icons.play_circle_fill, color: Colors.white, size: 30, 
-                );
-              },
+            icon: Icon( 
+                  isPauseCamera ? 
+                  Icons.play_circle_fill :
+                  Icons.pause_circle_filled,
+                  color: Colors.white, size: 30, 
             ) 
           ),
           IconButton(
@@ -152,6 +149,7 @@ class _ScanQRScreenState extends State<ScanQRScreen> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        if(scanData != null) { Vibration.vibrate(duration: 1000); }
       });
     });
   }
