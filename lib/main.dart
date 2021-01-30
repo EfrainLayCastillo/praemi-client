@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/SimpleBlocObserver.dart';
-import 'package:praemiclient/screens/PromoScreen/PromoScreen.dart';
+import 'package:praemiclient/screens/LocalOrderScreen/LocalOrderScreen.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
@@ -16,11 +16,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Praemi App Client',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: Colors.blue[800]
+        primaryColor: Color(0xFF033045),
       ),
-      home: PromoScreen(),
+      home: LocalOrderScreen(),
     );
   }
 }
