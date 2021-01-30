@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
-import 'package:praemiclient/screens/PromoScreen/ItemPromoCard.dart';
+import 'package:praemiclient/screens/PromoScreen/widgets/ItemPromoCard.dart';
 import 'package:praemiclient/utils/CustomCircularLoadingIndicator.dart';
 
 class PromoGridView extends StatefulWidget {

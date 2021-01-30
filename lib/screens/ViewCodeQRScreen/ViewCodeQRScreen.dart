@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:praemiclient/models/data_code_qr_model.dart';
 import 'package:praemiclient/screens/ViewCodeQRScreen/widgets/ModalBottonSheetOptions.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ViewCodeQRScreen extends StatelessWidget {
-  const ViewCodeQRScreen({Key key}) : super(key: key);
+  final DataCodeQrModel dataCodeQrModel;
+  const ViewCodeQRScreen({Key key, this.dataCodeQrModel})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     Size _sizeScreen = MediaQuery.of(context).size;
     Color _mainColor = Theme.of(context).primaryColor;
     return Scaffold(
@@ -22,14 +26,14 @@ class ViewCodeQRScreen extends StatelessWidget {
               width: _sizeScreen.width,
               child: Center(
                 child: QrImage(
-                  data: "name:michael,items[23],local:34",
+                  data: dataCodeQrModel.toJsonStringFormat(),
                   version: QrVersions.auto,
                   size: _sizeScreen.width * 0.6,
                   gapless: false,
                   foregroundColor: _mainColor,
-                  embeddedImage: AssetImage('assets/logoPraemi.png'),
+                  embeddedImage: AssetImage('assets/icon-praemi.png'),
                   embeddedImageStyle: QrEmbeddedImageStyle(
-                    size: Size(120, 40),
+                    size: Size(50,50),
                   ),
                 )
               ),

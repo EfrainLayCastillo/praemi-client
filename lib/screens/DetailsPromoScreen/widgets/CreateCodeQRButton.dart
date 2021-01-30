@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:praemiclient/models/data_code_qr_model.dart';
+import 'package:praemiclient/models/promos_model.dart';
 import 'package:praemiclient/screens/ViewCodeQRScreen/ViewCodeQRScreen.dart';
 
 class CreateCodeQRButton extends StatelessWidget {
-  const CreateCodeQRButton({Key key}) : super(key: key);
+  final PromosModel promosModel;
+  const CreateCodeQRButton({Key key, this.promosModel})
+   : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    DataCodeQrModel _dataCodeQrModel = DataCodeQrModel( 
+      promoId: promosModel.id,
+      userId: 'test', 
+      tokenAuth: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJp'
+    );
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.85,
       height: 53,
@@ -14,7 +25,7 @@ class CreateCodeQRButton extends StatelessWidget {
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute( 
             fullscreenDialog: true,
-            builder: (context) => ViewCodeQRScreen()
+            builder: (context) => ViewCodeQRScreen(dataCodeQrModel: _dataCodeQrModel)
           )
         ),
         label: Padding(
