@@ -10,4 +10,8 @@ class UtilsFn {
     return htmlText.replaceAll(exp, '');
   }
 
+  static bool validDataQrString(String data){
+    return data.contains('token') ? true : false;
+  }
+
 }

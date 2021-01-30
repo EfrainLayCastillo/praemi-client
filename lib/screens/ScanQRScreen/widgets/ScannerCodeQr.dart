@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/scanner_valid_qr_bloc/scanner_qr_bloc.dart';
+import 'package:praemiclient/utils/SnackBarCustom.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vibration/vibration.dart';
 
@@ -39,6 +41,7 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
     return BlocListener<ScannerQrBloc, ScannerQrState>(
       listener: (context, state) {
         if (state is SQrFailed) {
+          controller?.resumeCamera();
           // Scaffold.of(context)
           //   ..hideCurrentSnackBar()
           //   ..showSnackBar(
@@ -47,8 +50,14 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
         }
         if (state is SQrSuccessValidCode) {
           // BlocProvider.of<AuthenticationBloc>(context).add(ShowOnboarding(showOnboarding: true));
+           Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBarCustom.snackBar(msg: 'Creando pedido....' , actionWg: Icon(Icons.error_outline), bgColor: Colors.red),
+            );
         }if(state is SQrLoading){
-          controller.pauseCamera();
+          // controller.pauseCamera();
+          print('Cargando.....');
         }
       },
       child: BlocBuilder<ScannerQrBloc, ScannerQrState>(
@@ -94,7 +103,6 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
-      cameraFacing: CameraFacing.back,
       onQRViewCreated: _onQRViewCreated,
       formatsAllowed: [BarcodeFormat.qrcode],
       overlay: QrScannerOverlayShape(
@@ -165,16 +173,29 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
+
+    StreamSubscription<Barcode> subscription;
+    
+    subscription = controller.scannedDataStream.listen((scanData) {
       // setState(() {
       //   result = scanData;
       //   if(scanData != null) { Vibration.vibrate(duration: 1000); }
       // });
       if(scanData != null){
         Vibration.vibrate(duration: 1000);
-        _scannerValidQrBloc.add(ValidQrData(dataResult: scanData.code));
+        print('Pause camera');
+        subscription.pause(
+          controller.pauseCamera().then(
+            (value) => _scannerValidQrBloc.add(ValidQrData(dataResult: scanData.code))
+          ),
+        );
+        print('Camara pausada');
+
       }
     });
+
+    // subscription.cancel();
+
   }
 
   @override

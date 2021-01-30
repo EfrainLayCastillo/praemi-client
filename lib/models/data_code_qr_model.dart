@@ -10,7 +10,15 @@ class DataCodeQrModel {
   });
 
   String toJsonStringFormat(){
-    return '{"promoId":"$promoId","userId":"$userId","token":"$tokenAuth"}';
+    return '{"promoId":"$promoId","userId":"$userId","tokenAuth":"$tokenAuth"}';
+  }
+
+  factory DataCodeQrModel.fromJson(dynamic json) {
+    return DataCodeQrModel(
+      promoId: json['promoId'] as int, 
+      userId: json['userId'] as String, 
+      tokenAuth: json['tokenAuth'] as String 
+    );
   }
 
 }

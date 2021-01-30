@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:praemiclient/bloc/promo_grid_cubit/promo_grid_cubit.dart';
 import 'package:praemiclient/models/models.dart';
 import 'package:praemiclient/repositories/promos_repository.dart';
@@ -24,7 +25,17 @@ class PromoScreen extends StatelessWidget {
         backgroundColor: Colors.grey[50],
         body: CustomScrollView(
           slivers: [
-            CustomAppBarPraemi(),
+            CustomAppBarPraemi(
+              actionsWidgets: [
+                IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    context.read<AuthenticationBloc>()
+                    .add(LoggedOut());
+                  }
+                )
+              ],
+            ),
             SliverPadding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               sliver: PromoGridView(),

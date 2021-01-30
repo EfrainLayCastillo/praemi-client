@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:praemiclient/bloc/scanner_valid_qr_bloc/scanner_qr_bloc.dart';
-import 'package:praemiclient/screens/LocalOrderScreen/widgets/ButtonScanQR.dart';
-import 'package:praemiclient/screens/LocalOrderScreen/widgets/EmptyOrder.dart';
+import 'package:praemiclient/bloc/create_order_bloc/create_order_bloc.dart';
+import 'package:praemiclient/screens/VendorOrderScreen/widgets/ButtonScanQR.dart';
+import 'package:praemiclient/screens/VendorOrderScreen/widgets/EmptyOrder.dart';
 import 'package:praemiclient/utils/CustomAppBarPraemi.dart';
 
-class LocalOrderScreen extends StatelessWidget {
-  const LocalOrderScreen({Key key}) : super(key: key);
+class VendorOrderScreen extends StatelessWidget {
+  const VendorOrderScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class LocalOrderScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => ScannerQrBloc()
+          create: (BuildContext context) => CreateOrderBloc()
         ),
       ],
       child: Scaffold(
