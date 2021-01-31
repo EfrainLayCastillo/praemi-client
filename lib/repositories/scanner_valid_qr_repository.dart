@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:praemiclient/models/data_code_qr_model.dart';
+import 'package:praemiclient/models/order.dart';
 import 'package:praemiclient/models/user.dart';
 import 'package:praemiclient/services/WordpressAPI.dart';
 import 'package:praemiclient/utils/utilsFn.dart';
@@ -31,11 +32,13 @@ class ScannerValidQrRespository {
 
     print('ID USER GET : ${_userGet.idUser}');
     if (_userGet.email.isNotEmpty) {
-      Map<String, dynamic> ordered = await _query.queryMakeOrder(
+      var ordered = await _query.queryMakeOrder(
           userData: _userGet, productID: dataCodeQrModel.promoId);
       print(ordered);
-      if (ordered["status"] == "completed") {
+      if (ordered) {
         return _userGet.email.isNotEmpty ? true : false;
+      } else {
+        return false;
       }
     } else {
       return false;

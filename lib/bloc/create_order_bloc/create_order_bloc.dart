@@ -31,6 +31,7 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
       print('DATA CONVERTED: ${dataCodeQrModel.userId}');
       bool isGuest =
           await _scannerValidQrRespository.createOrderByUser(dataCodeQrModel);
+      // bool isGuest = true;
       print(isGuest);
       if (isGuest)
         yield SuccessOrderCreated();
