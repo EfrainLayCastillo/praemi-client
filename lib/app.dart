@@ -44,9 +44,9 @@ class _AppViewState extends State<AppView> {
         debugShowCheckedModeBanner: false,
         title: 'Praemi App Client',
         theme: ThemeData(
-            primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            primaryColor: Colors.blue[800]),
+            primaryColor: Color(0xFF033045),
+        ),
         navigatorKey: _navigatorKey,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
