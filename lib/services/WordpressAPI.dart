@@ -44,7 +44,6 @@ class WordpressAPI {
   }
 
   Future<Map<String, dynamic>> queryGetUserByToken(String authToken) async {
-    
     var res = await http.post("$baseURL/wp/v2/users/me", headers: {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -58,10 +57,10 @@ class WordpressAPI {
     } else {
       return throw Exception();
     }
-    
   }
 
-  Future<Map<String, dynamic>> queryMakeOrder({User userData, int productID}) async {
+  Future<Map<String, dynamic>> queryMakeOrder(
+      {User userData, int productID}) async {
     Random rand = Random();
     List<int> codeUnits = List.generate(10, (index) {
       return rand.nextInt(26) + 97;
@@ -83,6 +82,7 @@ class WordpressAPI {
       'Authorization': '$parameters',
       'Content-Type': 'application/json'
     };
+    print(_headers);
     var _body = {
       "payment_method_title": "Transferencia bancaria directa",
       "set_paid": true,
@@ -97,11 +97,13 @@ class WordpressAPI {
         {"product_id": productID, "quantity": 1}
       ]
     };
-    var res = await http.post("$baseURL/wp-json/wc/v3/orders",
-        headers: _headers, body: _body);
-    
+    final supabody = jsonEncode(_body);
+    var res = await http.post("$baseURL/wc/v3/orders",
+        headers: _headers, body: supabody);
+    print(res.statusCode);
     if (res.statusCode == 201) {
       Map<String, dynamic> jsonResponse = json.decode(res.body);
+      print(jsonResponse);
       return jsonResponse;
     } else {
       return null;

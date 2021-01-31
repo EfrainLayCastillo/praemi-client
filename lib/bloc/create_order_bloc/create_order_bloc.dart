@@ -11,30 +11,34 @@ part 'create_order_state.dart';
 
 class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   final ScannerValidQrRespository _scannerValidQrRespository;
-  
-  CreateOrderBloc(this._scannerValidQrRespository) : super(CreateOrderInitial());
+
+  CreateOrderBloc(this._scannerValidQrRespository)
+      : super(CreateOrderInitial());
 
   @override
-  Stream<CreateOrderState> mapEventToState( CreateOrderEvent event) async* {
-    if (event is CreateOrderCalled) { 
-      yield* _mapCreateOrderToState(event.dataCodeQrModel); 
+  Stream<CreateOrderState> mapEventToState(CreateOrderEvent event) async* {
+    if (event is CreateOrderCalled) {
+      yield* _mapCreateOrderToState(event.dataCodeQrModel);
     }
   }
 
-  Stream<CreateOrderState> _mapCreateOrderToState(String dataResultEncoded) async* {
+  Stream<CreateOrderState> _mapCreateOrderToState(
+      String dataResultEncoded) async* {
     yield CreateOrderLoading();
     try {
-      DataCodeQrModel dataCodeQrModel = await  _scannerValidQrRespository.convertStringtoDataModelFn(dataResultEncoded);
+      DataCodeQrModel dataCodeQrModel = await _scannerValidQrRespository
+          .convertStringtoDataModelFn(dataResultEncoded);
       print('DATA CONVERTED: ${dataCodeQrModel.userId}');
-      bool isGuest = await _scannerValidQrRespository.createOrderByUser(dataCodeQrModel);
-
-      if(isGuest) yield SuccessOrderCreated();
-      else throw Exception;
-
+      bool isGuest =
+          await _scannerValidQrRespository.createOrderByUser(dataCodeQrModel);
+      print(isGuest);
+      if (isGuest)
+        yield SuccessOrderCreated();
+      else
+        throw Exception;
     } catch (e) {
       print(e);
       yield CreateOrderFailed();
     }
   }
-
 }
