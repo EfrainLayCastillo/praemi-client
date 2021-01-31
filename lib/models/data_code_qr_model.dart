@@ -1,12 +1,13 @@
-class DataCodeQrModel {
+
+class DataCodeQrModel{
   int promoId;
   String userId;
   String tokenAuth;
   
   DataCodeQrModel({
-    this.promoId,
-    this.userId,
-    this.tokenAuth
+    this.promoId = 99,
+    this.userId = '',
+    this.tokenAuth = ''
   });
 
   String toJsonStringFormat(){
@@ -19,6 +20,6 @@ class DataCodeQrModel {
       userId: json['userId'] as String, 
       tokenAuth: json['tokenAuth'] as String 
     );
-  }
+  }  
 
 }

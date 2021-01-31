@@ -38,7 +38,7 @@ class PromoScreen extends StatelessWidget {
             ),
             SliverPadding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              sliver: PromoGridView(),
+              sliver: PromoGridView(userPromo: userData),
             )
           ],
         )

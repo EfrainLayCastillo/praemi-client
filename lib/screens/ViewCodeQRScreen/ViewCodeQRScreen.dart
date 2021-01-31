@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:praemiclient/models/data_code_qr_model.dart';
 import 'package:praemiclient/screens/ViewCodeQRScreen/widgets/ModalBottonSheetOptions.dart';
+import 'package:praemiclient/utils/utilsFn.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ViewCodeQRScreen extends StatelessWidget {
@@ -14,6 +15,8 @@ class ViewCodeQRScreen extends StatelessWidget {
     
     Size _sizeScreen = MediaQuery.of(context).size;
     Color _mainColor = Theme.of(context).primaryColor;
+    String dataDecoded = dataCodeQrModel.toJsonStringFormat();
+    print(UtilsFn.encodedDataQrString(dataDecoded));
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -26,7 +29,7 @@ class ViewCodeQRScreen extends StatelessWidget {
               width: _sizeScreen.width,
               child: Center(
                 child: QrImage(
-                  data: dataCodeQrModel.toJsonStringFormat(),
+                  data: UtilsFn.encodedDataQrString(dataDecoded),
                   version: QrVersions.auto,
                   size: _sizeScreen.width * 0.6,
                   gapless: false,
