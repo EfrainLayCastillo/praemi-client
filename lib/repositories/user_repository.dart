@@ -41,15 +41,12 @@ class UserRepository {
         'username': username,
         'password': password,
       };
-      // final Map<String, dynamic> errorData = Map<String, dynamic>();
 
       var res = await _query.generateToken(body);
 
-      if (res.statusCode == 200) {
-        // _controller.add(AuthenticationStatus.authenticated);
-        return res?.body;
-      }
+      if (res.statusCode == 200) { return res?.body; }
       return res?.body;
+      
     } finally {}
   }
 
@@ -62,19 +59,10 @@ class UserRepository {
     return await SESSION.get('tokens');
   }
 
-  void logOut() async {
-    await SESSION.prefs.clear();
+  Future<void> logOut() async {
+    await SESSION.set('tokens', 'empty');
   }
 
-  // Future<User> getUser() async {
-  //   if (_user != null) return _user;
-  //   var userData = await _query.getUser();
-  //   print(userData);
-  //   return Future.delayed(
-  //     const Duration(milliseconds: 300),
-  //     () => _user = User(Uuid().v4()),
-  //   );
-  // }
 }
 
 class _AuthData {

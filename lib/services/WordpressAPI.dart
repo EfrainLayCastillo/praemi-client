@@ -64,46 +64,37 @@ class WordpressAPI {
   }
 
   Future<bool> queryMakeOrder({User userData, int productID}) async {
-    String tokenUser = await FlutterSession().get("tokens");
-    print(tokenUser);
-    // String oauthSignature = _getOAuthURL("POST", "orders", tokenUser);
-    // print(oauthSignature);
-    // var _body = {
-    //   "payment_method_title": "Transferencia bancaria directa",
-    //   "set_paid": true,
-    //   "status": "completed",
-    //   "customer_id": userData.idUser,
-    //   "billing": {
-    //     "first_name": userData.username,
-    //     "country": "PTY",
-    //     "email": userData.email
-    //   },
-    //   "line_items": [
-    //     {"product_id": productID, "quantity": 1}
-    //   ]
-    // };
-    // http.Client client = http.Client();
-    // http.Request request = http.Request('POST', Uri.parse('orders'));
-    // request.headers[HttpHeaders.contentTypeHeader] =
-    //     'application/json; charset=utf-8';
-    // request.headers[HttpHeaders.cacheControlHeader] = "no-cache";
-    // request.body = json.encode(_body);
-    // String response =
-    //     await client.send(request).then((res) => res.stream.bytesToString());
-    // print(response);
-    // var dataResponse = await json.decode(response);
+    dynamic sessionToken = await FlutterSession().get("tokens");
+    print(sessionToken["token"]);
+    print(userData.tokenAuth);
+    String oauthSignature = _getOAuthURL("POST", "orders", userData.tokenAuth);
+    print(oauthSignature);
+    Map<dynamic, dynamic> _body = {
+      "payment_method_title": "Transferencia bancaria directa",
+      "set_paid": true,
+      "status": "completed",
+      "customer_id": userData.idUser,
+      "billing": {
+        "first_name": userData.username,
+        "country": "PTY",
+        "email": userData.email
+      },
+      "line_items": [
+        {"product_id": productID, "quantity": 1}
+      ]
+    };
+    var superbody = jsonEncode(_body);
+    http.Response response = await http.post(
+        _getOAuthURL("POST", "orders", userData.tokenAuth),
+        headers: {"Content-Type": "Application/json"},
+        body: superbody);
+    print(response.body);
 
-    // _handleError(dataResponse);
-    // print(dataResponse);
-    // return dataResponse;
-    // if (res.statusCode == 201) {
-    //   Map<String, dynamic> jsonResponse = json.decode(res.body);
-    //   print(jsonResponse);
-    //   return jsonResponse;
-    // } else {
-    //   return null;
-    // }
-    return true;
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<Map<String, dynamic>> queryGetOrderByVendor({User userData}) async {
@@ -163,7 +154,7 @@ class WordpressAPI {
   String _getOAuthURL(String requestMethod, String endpoint, String tokenUser) {
     String consumerKey = WooPraemi.consumerKeyConst;
     String consumerSecret = WooPraemi.consumerSecretConst;
-    String token = tokenUser;
+    String token = "";
     print('oauth token = : ' + token);
     String url = WooPraemi.baseUrlConst + WooPraemi.apiPathConst + endpoint;
     print(url);

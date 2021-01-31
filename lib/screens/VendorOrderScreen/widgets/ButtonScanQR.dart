@@ -53,26 +53,7 @@ class ButtonScanQR extends StatelessWidget {
         builder: (context) => ScanQRScreen()
       ),
     );
-
     BlocProvider.of<CreateOrderBloc>(context).add(CreateOrderCalled(dataCodeQrModel: resultData));
-
-    if(state is SuccessOrderCreated) {
-
-      Scaffold.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBarCustom.snackBar(msg: 'ORDEN CREADA' , 
-        actionWg: Icon(Icons.check_circle_outline), bgColor: Colors.greenAccent),
-      );
-    }
-    if( state is CreateOrderFailed){
-          Scaffold.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBarCustom.snackBar(msg: 'Error al crear la orden' , actionWg: Icon(Icons.error_outline), bgColor: Colors.red),
-          );
-    }
-
   }
 
 
