@@ -62,8 +62,8 @@ class UserRepository {
     return await SESSION.get('tokens');
   }
 
-  void logOut() async {
-    await SESSION.prefs.clear();
+  Future<void> logOut() async {
+    await SESSION.set('tokens', 'empty');
   }
 
   // Future<User> getUser() async {

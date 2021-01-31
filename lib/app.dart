@@ -51,13 +51,13 @@ class _AppViewState extends State<AppView> {
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is Unauthenticated) {
-              // return LoginPage(
-              //   userRepository: widget.userRepository,
-              // );
-              return VendorOrderScreen();
+              return LoginPage(
+                userRepository: widget.userRepository,
+              );
+              // return VendorOrderScreen();
             }
             if (state is Authenticated) {
-              if (state.userModel.roles != "dc_vendor") {
+              if (state.userModel.roles == "dc_vendor") {
                 return VendorOrderScreen();
               }
               return PromoScreen(

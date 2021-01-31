@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:praemiclient/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:praemiclient/repositories/scanner_valid_qr_repository.dart';
 import 'package:praemiclient/screens/VendorOrderScreen/widgets/ButtonScanQR.dart';
@@ -19,7 +20,17 @@ class VendorOrderScreen extends StatelessWidget {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            CustomAppBarPraemi(),
+            CustomAppBarPraemi(
+               actionsWidgets: [
+                IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    context.read<AuthenticationBloc>()
+                    .add(LoggedOut());
+                  }
+                )
+              ],
+            ),
             SliverToBoxAdapter(
               child: EmptyOrder(),
             )
