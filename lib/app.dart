@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:praemiclient/screens/LocalOrderScreen/LocalOrderScreen.dart';
 import 'package:praemiclient/screens/LocalScreen/LocalScreen.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'repositories/user_repository.dart';
 import 'screens/SplashScreen/splash_screen.dart';
 import 'screens/LoginScreen/login_screen.dart';
@@ -26,7 +28,7 @@ class App extends StatelessWidget {
 }
 
 class AppView extends StatefulWidget {
-  UserRepository userRepository;
+  final UserRepository userRepository;
   AppView({this.userRepository});
   @override
   _AppViewState createState() => _AppViewState();
@@ -43,8 +45,8 @@ class _AppViewState extends State<AppView> {
         debugShowCheckedModeBanner: false,
         title: 'Praemi App Client',
         theme: ThemeData(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            primaryColor: Color(0xFF033045),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          primaryColor: Color(0xFF033045),
         ),
         navigatorKey: _navigatorKey,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -53,6 +55,9 @@ class _AppViewState extends State<AppView> {
               return LoginPage(
                 userRepository: widget.userRepository,
               );
+              // return LoginPage(
+              //   userRepository: widget.userRepository,
+              // );
               // _navigator.pushAndRemoveUntil<void>(
               //   LoginPage.route(widget.userRepository),
               //   (route) => false,
@@ -60,9 +65,7 @@ class _AppViewState extends State<AppView> {
             }
             if (state is Authenticated) {
               if (state.userModel.roles == "dc_vendor") {
-                return LocalScreen(
-                  userData: state.userModel,
-                );
+                return LocalOrderScreen();
               }
               return PromoScreen(
                 userData: state.userModel,

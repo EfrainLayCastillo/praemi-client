@@ -25,6 +25,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            _image(),
             _UsernameInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _PasswordInput(),
@@ -33,6 +34,13 @@ class LoginForm extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _image() {
+    Widget logoSvg = Image.asset('assets/logoPraemi.png', width: 400);
+    return SafeArea(
+      child: Container(child: logoSvg),
     );
   }
 }
@@ -88,7 +96,21 @@ class _LoginButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : RaisedButton(
                 key: const Key('loginForm_continue_raisedButton'),
-                child: const Text('Login'),
+                child: const Text(
+                  'Iniciar sesión',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(3, 48, 69, 1)),
+                ),
+                textColor: Color.fromRGBO(3, 48, 69, 1),
+                color: Color.fromRGBO(0, 245, 148, 1),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                disabledColor: Color.fromRGBO(0, 245, 148, 1),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    side: BorderSide(color: Colors.white)),
+                autofocus: true,
                 onPressed: state.status.isValidated
                     ? () {
                         context.read<LoginBloc>().add(const LoginSubmitted());
