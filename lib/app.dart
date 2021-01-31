@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
-import 'package:praemiclient/screens/LocalOrderScreen/LocalOrderScreen.dart';
-import 'package:praemiclient/screens/LocalScreen/LocalScreen.dart';
-import 'package:splashscreen/splashscreen.dart';
+import 'package:praemiclient/screens/VendorOrderScreen/VendorOrderScreen.dart';
 import 'repositories/user_repository.dart';
 import 'screens/SplashScreen/splash_screen.dart';
 import 'screens/LoginScreen/login_screen.dart';
@@ -30,6 +28,7 @@ class App extends StatelessWidget {
 class AppView extends StatefulWidget {
   final UserRepository userRepository;
   AppView({this.userRepository});
+
   @override
   _AppViewState createState() => _AppViewState();
 }
@@ -55,17 +54,11 @@ class _AppViewState extends State<AppView> {
               return LoginPage(
                 userRepository: widget.userRepository,
               );
-              // return LoginPage(
-              //   userRepository: widget.userRepository,
-              // );
-              // _navigator.pushAndRemoveUntil<void>(
-              //   LoginPage.route(widget.userRepository),
-              //   (route) => false,
-              // );
+              // return VendorOrderScreen();
             }
             if (state is Authenticated) {
               if (state.userModel.roles == "dc_vendor") {
-                return LocalOrderScreen();
+                return VendorOrderScreen();
               }
               return PromoScreen(
                 userData: state.userModel,

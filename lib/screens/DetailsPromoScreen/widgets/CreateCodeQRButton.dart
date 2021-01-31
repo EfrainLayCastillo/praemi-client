@@ -1,21 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:praemiclient/models/data_code_qr_model.dart';
 import 'package:praemiclient/models/promos_model.dart';
+import 'package:praemiclient/models/user.dart';
 import 'package:praemiclient/screens/ViewCodeQRScreen/ViewCodeQRScreen.dart';
 
 class CreateCodeQRButton extends StatelessWidget {
   final PromosModel promosModel;
-  const CreateCodeQRButton({Key key, this.promosModel})
+  final User userBtn;
+  DataCodeQrModel dataCodeQrModel;
+
+  CreateCodeQRButton({Key key, this.promosModel, this.userBtn})
    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    DataCodeQrModel _dataCodeQrModel = DataCodeQrModel( 
-      promoId: promosModel.id,
-      userId: 'test', 
-      tokenAuth: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJp'
-    );
+    
+    _getDataCodeQrModel().then((value) => dataCodeQrModel = value);
+    
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.85,
@@ -25,7 +29,7 @@ class CreateCodeQRButton extends StatelessWidget {
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute( 
             fullscreenDialog: true,
-            builder: (context) => ViewCodeQRScreen(dataCodeQrModel: _dataCodeQrModel)
+            builder: (context) => ViewCodeQRScreen(dataCodeQrModel: dataCodeQrModel)
           )
         ),
         label: Padding(
@@ -45,6 +49,15 @@ class CreateCodeQRButton extends StatelessWidget {
         ),
         heroTag: 'rrrr2',
       ),
+    );
+  }
+
+   Future<DataCodeQrModel> _getDataCodeQrModel() async{  
+    
+    return  DataCodeQrModel( 
+      promoId: promosModel.id,
+      userId: userBtn.idUser.toString(), 
+      tokenAuth: userBtn.tokenAuth
     );
   }
 }

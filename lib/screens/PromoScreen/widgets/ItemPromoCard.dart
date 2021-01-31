@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:praemiclient/models/promos_model.dart';
+import 'package:praemiclient/models/user.dart';
 import 'package:praemiclient/screens/DetailsPromoScreen/DetailsPromoScreen.dart';
 
 class ItemPromoCard extends StatelessWidget {
   final PromosModel promosModel;
-
+  final User user;
   ItemPromoCard({
     Key key,
     @required this.promosModel,
+    this.user
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class ItemPromoCard extends StatelessWidget {
           MaterialPageRoute( 
             builder: (context) => DetailsPromoScreen(
               promosModelItem: promosModel,
+              userD: user
             )
           )
         ),
