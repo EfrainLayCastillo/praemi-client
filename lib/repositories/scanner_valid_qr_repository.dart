@@ -32,18 +32,10 @@ class ScannerValidQrRespository {
 
     print('ID USER GET : ${_userGet.idUser}');
     if (_userGet.email.isNotEmpty) {
-      var ordered = await _query.queryMakeOrder(
+      return await _query.queryMakeOrder(
           userData: _userGet, productID: dataCodeQrModel.promoId);
-      print(ordered);
-      if (ordered) {
-        return _userGet.email.isNotEmpty ? true : false;
-      } else {
-        return false;
-      }
     } else {
       return false;
     }
-    // return _userGet.email.isNotEmpty ? true : false;
-    //_query.queryMakeOrder(userData: _userGet, productID: dataCodeQrModel.promoId );
   }
 }

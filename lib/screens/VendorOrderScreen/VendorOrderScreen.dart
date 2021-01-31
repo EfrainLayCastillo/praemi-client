@@ -22,47 +22,53 @@ class VendorOrderScreen extends StatelessWidget {
     return BlocProvider(
         create: (BuildContext context) =>
             CreateOrderBloc(scannerValidQrRespository),
-        child: BlocListener<CreateOrderBloc, CreateOrderState>(
-          listener: (context, state) {
-            if(state is SuccessOrderCreated) {
-              Scaffold.of(context) ..hideCurrentSnackBar() 
-              ..showSnackBar(
-                SnackBarCustom.snackBar(
-                  msg: 'ORDEN CREADA' , 
-                  actionWg: Icon(Icons.check_circle_outline), 
-                  bgColor: Colors.greenAccent
+        child: Scaffold(
+          body: BlocListener<CreateOrderBloc, CreateOrderState>(
+            listener: (context, state) {
+              if (state is SuccessOrderCreated) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBarCustom.snackBar(
+                        msg: 'ORDEN CREADA',
+                        actionWg: Icon(Icons.check_circle_outline),
+                        bgColor: Colors.greenAccent),
+                  );
+              }
+              if (state is CreateOrderFailed) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBarCustom.snackBar(
+                        msg: 'Error al crear la orden',
+                        actionWg: Icon(Icons.error_outline),
+                        bgColor: Colors.red),
+                  );
+              }
+            },
+            child: Scaffold(
+                body: CustomScrollView(
+                  slivers: [
+                    CustomAppBarPraemi(
+                      actionsWidgets: [
+                        IconButton(
+                            icon: Icon(Icons.logout),
+                            onPressed: () {
+                              context
+                                  .read<AuthenticationBloc>()
+                                  .add(LoggedOut());
+                            })
+                      ],
+                    ),
+                    SliverToBoxAdapter(
+                      child: EmptyOrder(),
+                    )
+                  ],
                 ),
-              );
-            }
-            if( state is CreateOrderFailed){
-              Scaffold.of(context)..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBarCustom.snackBar(msg: 'Error al crear la orden' , 
-                actionWg: Icon(Icons.error_outline), bgColor: Colors.red),
-              );
-            }
-
-          },
-          child: Scaffold(
-              body: CustomScrollView(
-                slivers: [
-                  CustomAppBarPraemi(
-                    actionsWidgets: [
-                      IconButton(
-                          icon: Icon(Icons.logout),
-                          onPressed: () {
-                            context.read<AuthenticationBloc>().add(LoggedOut());
-                          })
-                    ],
-                  ),
-                  SliverToBoxAdapter(
-                    child: EmptyOrder(),
-                  )
-                ],
-              ),
-              floatingActionButton: ButtonScanQR(),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat),
+                floatingActionButton: ButtonScanQR(),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerFloat),
+          ),
         ));
   }
 }

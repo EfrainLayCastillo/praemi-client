@@ -64,11 +64,6 @@ class WordpressAPI {
   }
 
   Future<bool> queryMakeOrder({User userData, int productID}) async {
-    dynamic sessionToken = await FlutterSession().get("tokens");
-    print(sessionToken["token"]);
-    print(userData.tokenAuth);
-    String oauthSignature = _getOAuthURL("POST", "orders", userData.tokenAuth);
-    print(oauthSignature);
     Map<dynamic, dynamic> _body = {
       "payment_method_title": "Transferencia bancaria directa",
       "set_paid": true,
