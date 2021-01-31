@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:praemiclient/screens/LocalScreen/LocalScreen.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'repositories/user_repository.dart';
 import 'screens/SplashScreen/splash_screen.dart';
 import 'screens/LoginScreen/login_screen.dart';
@@ -50,9 +51,27 @@ class _AppViewState extends State<AppView> {
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is Unauthenticated) {
-              return LoginPage(
-                userRepository: widget.userRepository,
-              );
+              return SplashScreen(
+                  seconds: 3,
+                  navigateAfterSeconds: LoginPage(
+                    userRepository: widget.userRepository,
+                  ),
+                  title: new Text(
+                    'Bienvenido a Praemi',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Cocogoose',
+                        fontSize: 32,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  image: new Image.asset('assets/icon-praemi.png'),
+                  backgroundColor: Color.fromRGBO(3, 48, 69, 1),
+                  styleTextUnderTheLoader: new TextStyle(),
+                  photoSize: 100.0,
+                  loaderColor: Color.fromRGBO(0, 245, 148, 1));
+              // return LoginPage(
+              //   userRepository: widget.userRepository,
+              // );
               // _navigator.pushAndRemoveUntil<void>(
               //   LoginPage.route(widget.userRepository),
               //   (route) => false,
