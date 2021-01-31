@@ -69,7 +69,6 @@ class WordpressAPI {
     String nonce = String.fromCharCodes(codeUnits);
     int timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-    dynamic sessionToken = await FlutterSession().get("tokens");
     String parameters = "oauth_consumer_key=" +
         WooPraemi.consumerKeyConst +
         "&oauth_nonce=" +
@@ -77,7 +76,7 @@ class WordpressAPI {
         "&oauth_signature_method=HMAC-SHA1&oauth_timestamp=" +
         timestamp.toString() +
         "&oauth_token=" +
-        sessionToken["token"] +
+        userData.tokenAuth +
         "&oauth_version=1.0&";
     var _headers = {
       'Authorization': '$parameters',

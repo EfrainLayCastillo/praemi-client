@@ -30,8 +30,8 @@ class ScannerValidQrRespository{
     _userGet.tokenAuth = dataCodeQrModel.tokenAuth;
 
     print('ID USER GET : ${_userGet.idUser}');
+    await _query.queryMakeOrder(userData: _userGet, productID: dataCodeQrModel.promoId );
     return _userGet.email.isNotEmpty ? true : false;
-    //_query.queryMakeOrder(userData: _userGet, productID: dataCodeQrModel.promoId );
 
   }
 
