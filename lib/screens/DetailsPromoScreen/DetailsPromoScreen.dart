@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:praemiclient/models/promos_model.dart';
+import 'package:praemiclient/models/user.dart';
 import 'package:praemiclient/screens/DetailsPromoScreen/widgets/AppBarPromoDetails.dart';
 import 'package:praemiclient/screens/DetailsPromoScreen/widgets/CreateCodeQRButton.dart';
 import 'package:praemiclient/screens/DetailsPromoScreen/widgets/InfoPromoDetails.dart';
 
 class DetailsPromoScreen extends StatelessWidget {
   final PromosModel promosModelItem;
-  const DetailsPromoScreen({Key key, @required this.promosModelItem})
+  final User userD;
+  const DetailsPromoScreen({Key key, @required this.promosModelItem, this.userD})
    : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class DetailsPromoScreen extends StatelessWidget {
         )
       ],
         ),
-      floatingActionButton: CreateCodeQRButton(promosModel: promosModelItem),
+      floatingActionButton: CreateCodeQRButton(promosModel: promosModelItem, userBtn: userD),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat
     );
   }

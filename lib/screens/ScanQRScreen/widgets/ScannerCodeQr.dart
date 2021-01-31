@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:praemiclient/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:praemiclient/bloc/scanner_valid_qr_bloc/scanner_qr_bloc.dart';
+import 'package:praemiclient/screens/VendorOrderScreen/VendorOrderScreen.dart';
+import 'package:praemiclient/utils/SnackBarCustom.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vibration/vibration.dart';
 
@@ -19,6 +23,7 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
   ScannerQrBloc _scannerValidQrBloc;
   Barcode result;
   QRViewController controller;
+  StreamSubscription<Barcode> subscriptionTemp;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool isPauseCamera = false;
   
@@ -39,16 +44,18 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
     return BlocListener<ScannerQrBloc, ScannerQrState>(
       listener: (context, state) {
         if (state is SQrFailed) {
-          // Scaffold.of(context)
-          //   ..hideCurrentSnackBar()
-          //   ..showSnackBar(
-          //     _snackBarCustom.snackBar(msg: state.alertMessage , actionWg: Icon(Icons.error_outline), bgColor: Colors.red),
-          //   );
+          controller?.resumeCamera();
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBarCustom.snackBar(msg: 'Codigo incorrecto' , actionWg: Icon(Icons.error_outline), bgColor: Colors.red),
+            );
         }
         if (state is SQrSuccessValidCode) {
-          // BlocProvider.of<AuthenticationBloc>(context).add(ShowOnboarding(showOnboarding: true));
-        }if(state is SQrLoading){
-          controller.pauseCamera();
+            Navigator.pop(context,state.dataCodeQrModel);
+        }
+        if(state is SQrLoading){
+          print('Cargando.....');
         }
       },
       child: BlocBuilder<ScannerQrBloc, ScannerQrState>(
@@ -87,14 +94,12 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     Size _size = MediaQuery.of(context).size;
     var scanArea = _size.width * 0.6;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
-      cameraFacing: CameraFacing.back,
       onQRViewCreated: _onQRViewCreated,
       formatsAllowed: [BarcodeFormat.qrcode],
       overlay: QrScannerOverlayShape(
@@ -162,24 +167,26 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      // setState(() {
-      //   result = scanData;
-      //   if(scanData != null) { Vibration.vibrate(duration: 1000); }
-      // });
+    setState(() => this.controller = controller );
+
+    subscriptionTemp = controller.scannedDataStream.listen((scanData) {
       if(scanData != null){
         Vibration.vibrate(duration: 1000);
-        _scannerValidQrBloc.add(ValidQrData(dataResult: scanData.code));
+        subscriptionTemp.pause(
+          controller.pauseCamera().then(
+            (value) => _scannerValidQrBloc.add(ValidQrData(dataResult: scanData.code))
+          ),
+        );
       }
+
     });
+
   }
 
   @override
   void dispose() {
     controller.dispose();
+    subscriptionTemp.cancel();
     super.dispose();
   }
 

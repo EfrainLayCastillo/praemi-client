@@ -13,4 +13,4 @@ class CreateOrderLoading extends CreateOrderState {}
 
 class CreateOrderFailed extends CreateOrderState {}
 
-class CreateOrderSuccessOrderCreated extends CreateOrderState {}
+class SuccessOrderCreated extends CreateOrderState {}
