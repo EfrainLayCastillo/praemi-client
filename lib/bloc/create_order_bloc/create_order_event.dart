@@ -9,7 +9,7 @@ abstract class CreateOrderEvent extends Equatable {
 
 class CreateOrderCalled extends CreateOrderEvent {
 
-  final DataCodeQrModel dataCodeQrModel;
+  final String dataCodeQrModel;
 
   const CreateOrderCalled({ @required this.dataCodeQrModel});
 
@@ -17,5 +17,5 @@ class CreateOrderCalled extends CreateOrderEvent {
   List<Object> get props => [dataCodeQrModel];
 
   @override
-  String toString() => 'Data Code Qr Model : { type :${dataCodeQrModel.promoId} }';
+  String toString() => 'Data Code Qr Model : { type :$dataCodeQrModel }';
 }

@@ -9,34 +9,27 @@ class ScannerValidQrRespository{
 
   WordpressAPI _query = WordpressAPI();
   
-  Future<bool> validQrDataFn(String dataResult) async {
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(dataResult);      // dXNlcm5hbWU6cGFzc3dvcmQ=
-    String decoded = stringToBase64.decode(encoded); 
-
-    print('#########');
-    print('encoded -----> $encoded');
-    print('#########');
-    print('decoded -----> $decoded');
-    return UtilsFn.validDataQrString(decoded);
+  Future<bool> validQrDataFn(String dataResultEncoded) async {
+    
+    String decodedData = UtilsFn.decodedDataQrString(dataResultEncoded);
+    print('############');
+    print('decoded -----> $decodedData');
+    print('############');
+    return UtilsFn.validDataQrString(decodedData);
   }
 
-  Future<DataCodeQrModel> convertStringtoDataModelFn(String dataResult) async {
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String encoded = stringToBase64.encode(dataResult);      // dXNlcm5hbWU6cGFzc3dvcmQ=
-    String decoded = stringToBase64.decode(encoded); 
-
-    print('#########');
-    print('encoded -----> $encoded');
-    print('#########');
-    print('decoded -----> $decoded');
-    return DataCodeQrModel.fromJson(decoded);
+  Future<DataCodeQrModel> convertStringtoDataModelFn(String dataResultEncoded) async {
+    String decodedData = UtilsFn.decodedDataQrString(dataResultEncoded);
+    return DataCodeQrModel.fromJson(jsonDecode(decodedData));
   }
 
   Future<bool> createOrderByUser(DataCodeQrModel dataCodeQrModel) async {
-    User _userGet = User.fromJson(await  _query.queryGetUserByToken(dataCodeQrModel.tokenAuth));
+    Map<String, dynamic> jsonResp = await  _query.queryGetUserByToken(dataCodeQrModel.tokenAuth);
+    User _userGet = User.fromJson(jsonResp);
+
     _userGet.tokenAuth = dataCodeQrModel.tokenAuth;
-    print(_userGet.email);
+
+    print('ID USER GET : ${_userGet.idUser}');
     return _userGet.email.isNotEmpty ? true : false;
     //_query.queryMakeOrder(userData: _userGet, productID: dataCodeQrModel.promoId );
 

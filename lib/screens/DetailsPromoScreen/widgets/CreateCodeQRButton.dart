@@ -19,7 +19,7 @@ class CreateCodeQRButton extends StatelessWidget {
   Widget build(BuildContext context) {
     
     _getDataCodeQrModel().then((value) => dataCodeQrModel = value);
-    inspect(dataCodeQrModel);
+    
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.85,
@@ -53,12 +53,11 @@ class CreateCodeQRButton extends StatelessWidget {
   }
 
    Future<DataCodeQrModel> _getDataCodeQrModel() async{  
-    dynamic sessionToken = await FlutterSession().get("tokens");
     
     return  DataCodeQrModel( 
       promoId: promosModel.id,
       userId: userBtn.idUser.toString(), 
-      tokenAuth: sessionToken["token"]
+      tokenAuth: userBtn.tokenAuth
     );
   }
 }

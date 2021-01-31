@@ -23,16 +23,13 @@ class ScannerQrBloc extends Bloc<ScannerQrEvent, ScannerQrState> {
    
   }
 
-  Stream<ScannerQrState> _mapValidQrDataToState(String dataResult) async* {
+  Stream<ScannerQrState> _mapValidQrDataToState(String dataResultEncode) async* {
     yield SQrLoading();
     try {
-      bool isValid = await _scannerValidQrRespository.validQrDataFn(dataResult);
-      print('CODE QR IS VALID??? $isValid');
+      bool isValid = await _scannerValidQrRespository.validQrDataFn(dataResultEncode);
+      
       if(isValid){ 
-        DataCodeQrModel dataCodeQrModel = 
-        await _scannerValidQrRespository.convertStringtoDataModelFn(dataResult);
-
-        yield SQrSuccessValidCode(dataCodeQrModel: dataCodeQrModel);
+        yield SQrSuccessValidCode(dataCodeQrModel: dataResultEncode);
       }
       else throw Exception;
 

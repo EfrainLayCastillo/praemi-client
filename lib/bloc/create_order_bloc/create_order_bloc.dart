@@ -21,12 +21,14 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
     }
   }
 
-  Stream<CreateOrderState> _mapCreateOrderToState(DataCodeQrModel dataCodeQrModel) async* {
+  Stream<CreateOrderState> _mapCreateOrderToState(String dataResultEncoded) async* {
     yield CreateOrderLoading();
     try {
+      DataCodeQrModel dataCodeQrModel = await  _scannerValidQrRespository.convertStringtoDataModelFn(dataResultEncoded);
+      print('DATA CONVERTED: ${dataCodeQrModel.userId}');
       bool isGuest = await _scannerValidQrRespository.createOrderByUser(dataCodeQrModel);
 
-      if(isGuest) yield CreateOrderSuccessOrderCreated();
+      if(isGuest) yield SuccessOrderCreated();
       else throw Exception;
 
     } catch (e) {

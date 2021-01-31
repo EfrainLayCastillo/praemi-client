@@ -7,10 +7,10 @@ class User {
   User({this.idUser, this.username, this.email, this.roles, this.tokenAuth});
 
   User.fromJson(Map<String, dynamic> json) {
-    idUser = json['id'] as int;
-    username = json['username'] as String;
-    email = json['email'] as String;
-    roles = json['role'] as String;
+    idUser = json['id'];
+    username = json['username'];
+    email = json['email'];
+    roles = json['roles'][0];
   }
 
 }

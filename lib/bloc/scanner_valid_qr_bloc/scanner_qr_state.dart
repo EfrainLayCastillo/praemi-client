@@ -14,10 +14,10 @@ class SQrLoading extends ScannerQrState {}
 class SQrFailed extends ScannerQrState {}
 
 class SQrSuccessValidCode extends ScannerQrState {
-  final DataCodeQrModel dataCodeQrModel;
+  final String dataCodeQrModel;
   const SQrSuccessValidCode({this.dataCodeQrModel});
 
-  SQrSuccessValidCode copyWith({DataCodeQrModel dataCodeQrModel}) {
+  SQrSuccessValidCode copyWith({String dataCodeQrModel}) {
     return SQrSuccessValidCode(dataCodeQrModel: dataCodeQrModel?? this.dataCodeQrModel);
   }
 
@@ -25,7 +25,7 @@ class SQrSuccessValidCode extends ScannerQrState {
   List<Object> get props => [dataCodeQrModel];
 
   @override
-  String toString() => 'Lista Cargada de Promociones: ${dataCodeQrModel.userId}';
+  String toString() => 'DataCodeQrModel Encoded: $dataCodeQrModel';
 }
 
 class SQrSuccessOrderCreated extends ScannerQrState {}

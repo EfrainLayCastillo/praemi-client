@@ -18,12 +18,15 @@ class UserRepository {
 
   Future<User> getUser() async {
     Map<String, dynamic> userData = await _query.queryGetUser();
+    dynamic sessionToken = await FlutterSession().get("tokens");
     print(userData["roles"][0]);
     return User(
-        idUser: userData["id"],
-        username: userData["username"],
-        email: userData["email"],
-        roles: userData["roles"][0]);
+      idUser: userData["id"],
+      username: userData["username"],
+      email: userData["email"],
+      roles: userData["roles"][0],
+      tokenAuth: sessionToken["token"]
+    );
   }
 
   Future<dynamic> logIn({

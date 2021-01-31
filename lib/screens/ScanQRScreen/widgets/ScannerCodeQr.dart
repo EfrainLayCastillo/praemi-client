@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/create_order_bloc/create_order_bloc.dart';
 import 'package:praemiclient/bloc/scanner_valid_qr_bloc/scanner_qr_bloc.dart';
+import 'package:praemiclient/screens/VendorOrderScreen/VendorOrderScreen.dart';
 import 'package:praemiclient/utils/SnackBarCustom.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vibration/vibration.dart';
@@ -51,14 +52,9 @@ class _ScannerCodeQrState extends State<ScannerCodeQr> {
             );
         }
         if (state is SQrSuccessValidCode) {
-           BlocProvider.of<CreateOrderBloc>(context).add(CreateOrderCalled(dataCodeQrModel: state.dataCodeQrModel));
-           Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBarCustom.snackBar(msg: 'Creando pedido....' , actionWg: Icon(Icons.check_circle_outline), bgColor: Colors.greenAccent),
-            );
-        }if(state is SQrLoading){
-          // controller.pauseCamera();
+            Navigator.pop(context,state.dataCodeQrModel);
+        }
+        if(state is SQrLoading){
           print('Cargando.....');
         }
       },

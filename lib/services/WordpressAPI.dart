@@ -50,9 +50,15 @@ class WordpressAPI {
       'Accept': 'application/json',
       "Authorization": "Bearer $authToken"
     });
-    Map<String, dynamic> jsonResponse = json.decode(res.body);
-    print(jsonResponse["username"]);
-    return jsonResponse;
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(res.body);
+      print(jsonResponse);
+      return jsonResponse;
+    } else {
+      return throw Exception();
+    }
+    
   }
 
   Future<Map<String, dynamic>> queryMakeOrder({User userData, int productID}) async {

@@ -16,7 +16,7 @@ class DataCodeQrModel{
 
   factory DataCodeQrModel.fromJson(dynamic json) {
     return DataCodeQrModel(
-      promoId: json['promoId'] as int, 
+      promoId: int.parse(json['promoId']), 
       userId: json['userId'] as String, 
       tokenAuth: json['tokenAuth'] as String 
     );

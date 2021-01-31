@@ -17,6 +17,7 @@ class ViewCodeQRScreen extends StatelessWidget {
     Color _mainColor = Theme.of(context).primaryColor;
     String dataDecoded = dataCodeQrModel.toJsonStringFormat();
     print(UtilsFn.encodedDataQrString(dataDecoded));
+    print('Token BTN : ${dataCodeQrModel.tokenAuth}');
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: AnnotatedRegion<SystemUiOverlayStyle>(

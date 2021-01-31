@@ -14,12 +14,8 @@ class VendorOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size _sizeScreen = MediaQuery.of(context).size;
     
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (BuildContext context) => CreateOrderBloc(scannerValidQrRespository)
-        ),
-      ],
+    return BlocProvider(
+      create: (BuildContext context) => CreateOrderBloc(scannerValidQrRespository),
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
