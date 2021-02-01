@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:praemiclient/models/data_code_qr_model.dart';
 import 'package:praemiclient/screens/ViewCodeQRScreen/widgets/ModalBottonSheetOptions.dart';
+import 'package:praemiclient/utils/theme/PraemiTheme.dart';
 import 'package:praemiclient/utils/utilsFn.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -47,11 +48,7 @@ class ViewCodeQRScreen extends StatelessWidget {
               top: _sizeScreen.height * 0.15,
               child:  Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text(
-                  '¡Su codigo se ha generado!'.toUpperCase(), 
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
+                child: PraemiTheme.titleh1(text: '¡Su codigo se ha generado!'.toUpperCase())
               ),
             ),
             Positioned(
@@ -82,7 +79,7 @@ class ViewCodeQRScreen extends StatelessWidget {
           ]
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: _mainColor,
         child: Icon( Icons.menu ),

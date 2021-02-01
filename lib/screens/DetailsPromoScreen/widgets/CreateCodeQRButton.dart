@@ -6,6 +6,7 @@ import 'package:praemiclient/models/data_code_qr_model.dart';
 import 'package:praemiclient/models/promos_model.dart';
 import 'package:praemiclient/models/user.dart';
 import 'package:praemiclient/screens/ViewCodeQRScreen/ViewCodeQRScreen.dart';
+import 'package:praemiclient/utils/theme/PraemiTheme.dart';
 
 class CreateCodeQRButton extends StatelessWidget {
   final PromosModel promosModel;
@@ -42,7 +43,7 @@ class CreateCodeQRButton extends StatelessWidget {
         icon: Icon(
           Icons.qr_code, 
           size: 20, 
-          color: Colors.white
+          color: PraemiTheme.colorSecondary
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))

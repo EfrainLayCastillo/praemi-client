@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:praemiclient/utils/theme/PraemiTheme.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class TitleInfo extends StatelessWidget {
@@ -60,7 +61,7 @@ class TitleInfo extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 15),
         height: 65,
         width: 55,
-        color: Colors.blue[800],
+        color: PraemiTheme.colorPrimary,
         // child: Text(
         //   "\$$price",
         //   style: Theme.of(context).textTheme.headline6.copyWith(

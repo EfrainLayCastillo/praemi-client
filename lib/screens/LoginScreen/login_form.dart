@@ -1,12 +1,17 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:praemiclient/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:praemiclient/bloc/login_bloc/login_bloc.dart';
+import 'package:praemiclient/utils/theme/PraemiTheme.dart';
 
 class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
@@ -25,23 +30,27 @@ class LoginForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _image(),
+            const SizedBox(height: 50,),
+            _image(size.width * 0.5),
+            const SizedBox(height: 50,),
             _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(12)),
+            const SizedBox(height: 20,),
             _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
+            const SizedBox(height: 40,),
+            Container(
+              width: size.width * 0.90, 
+              height: 58,
+              child: _LoginButton()
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _image() {
-    Widget logoSvg = Image.asset('assets/logoPraemi.png', width: 400);
-    return SafeArea(
-      child: Container(child: logoSvg),
-    );
+  Widget _image(double widthSvg) {
+    Widget logoSvg = Image.asset('assets/logoPraemi.png', width: widthSvg);
+    return Container(child: logoSvg);
   }
 }
 
@@ -53,10 +62,12 @@ class _UsernameInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+          onChanged: (username) => context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
             labelText: 'username',
+            border: const OutlineInputBorder(),
+            hintText: 'username',
+            prefixIcon: Icon(Icons.account_circle, color: PraemiTheme.colorPrimary),
             errorText: state.username.invalid ? 'invalid username' : null,
           ),
         );
@@ -73,11 +84,13 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+          onChanged: (password) => context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'password',
+            border: const OutlineInputBorder(),
+            hintText: 'password',
+            prefixIcon: Icon(Icons.lock, color: PraemiTheme.colorPrimary),
             errorText: state.password.invalid ? 'invalid password' : null,
           ),
         );
@@ -92,32 +105,36 @@ class _LoginButton extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : RaisedButton(
+        return  RaisedButton(
                 key: const Key('loginForm_continue_raisedButton'),
-                child: const Text(
-                  'Iniciar sesión',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(3, 48, 69, 1)),
-                ),
-                textColor: Color.fromRGBO(3, 48, 69, 1),
-                color: Color.fromRGBO(0, 245, 148, 1),
+                child: state.status.isSubmissionInProgress ? isLoadingButton(context) :
+                  Text( 'Iniciar sesión'.toUpperCase(), 
+                    style: TextStyle(color: Colors.white, letterSpacing: 0.9, fontSize: 15)
+                  ),
+                color: PraemiTheme.colorPrimary,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                disabledColor: Color.fromRGBO(0, 245, 148, 1),
+                disabledColor: PraemiTheme.colorPrimary.withOpacity(0.5),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    side: BorderSide(color: Colors.white)),
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(color: PraemiTheme.colorPrimary)),
                 autofocus: true,
                 onPressed: state.status.isValidated
-                    ? () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
-                      }
-                    : null,
+                    ? () => context.read<LoginBloc>().add(const LoginSubmitted()) : null,
               );
       },
     );
   }
+
+  Widget isLoadingButton(BuildContext context) {
+    
+    return Platform.isIOS ? CupertinoActivityIndicator() : Container(
+      height: 22, width: 22,
+      child: CircularProgressIndicator(
+        backgroundColor: Colors.white, 
+        valueColor: AlwaysStoppedAnimation<Color> (Color(0xff00f594)), 
+        strokeWidth: 2 
+      ),
+    );
+  }
+
 }
