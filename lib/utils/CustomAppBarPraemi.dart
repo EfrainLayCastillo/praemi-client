@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBarPraemi extends StatelessWidget {
-  
   final List<Widget> actionsWidgets;
-  const CustomAppBarPraemi({Key key, this.actionsWidgets }) : super(key: key);
+  const CustomAppBarPraemi({Key key, this.actionsWidgets}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

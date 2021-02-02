@@ -6,6 +6,7 @@ import 'package:praemiclient/repositories/scanner_valid_qr_repository.dart';
 import 'package:praemiclient/screens/VendorOrderScreen/widgets/ButtonScanQR.dart';
 import 'package:praemiclient/screens/VendorOrderScreen/widgets/EmptyOrder.dart';
 import 'package:praemiclient/utils/CustomAppBarPraemi.dart';
+import 'package:praemiclient/utils/DialogCustom.dart';
 import 'package:praemiclient/utils/SnackBarCustom.dart';
 
 class VendorOrderScreen extends StatelessWidget {
@@ -26,14 +27,18 @@ class VendorOrderScreen extends StatelessWidget {
           body: BlocListener<CreateOrderBloc, CreateOrderState>(
             listener: (context, state) {
               if (state is SuccessOrderCreated) {
-                Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBarCustom.snackBar(
-                        msg: 'ORDEN CREADA',
-                        actionWg: Icon(Icons.check_circle_outline),
-                        bgColor: Colors.greenAccent),
-                  );
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DialogCustom(
+                        title: "",
+                        message: "ORDEN CREADA",
+                        textBtn: "Cerrar",
+                        pathImage: "assets/gifs/success-animation.gif",
+                        onPressed: () => Navigator.of(context).pop(),
+                      );
+                    });
               }
               if (state is CreateOrderFailed) {
                 Scaffold.of(context)
