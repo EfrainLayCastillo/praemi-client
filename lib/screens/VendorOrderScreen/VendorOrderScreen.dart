@@ -53,6 +53,9 @@ class VendorOrderScreen extends StatelessWidget {
             },
             child: Scaffold(
                 body: CustomScrollView(
+                  //Disabled scrolling
+                  // `const NeverScrollableScrollPhysics(),`
+                  physics: const NeverScrollableScrollPhysics(),
                   slivers: [
                     CustomAppBarPraemi(
                       actionsWidgets: [

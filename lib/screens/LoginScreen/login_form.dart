@@ -106,21 +106,19 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return  RaisedButton(
-                key: const Key('loginForm_continue_raisedButton'),
-                child: state.status.isSubmissionInProgress ? isLoadingButton(context) :
-                  Text( 'Iniciar sesión'.toUpperCase(), 
-                    style: TextStyle(color: Colors.white, letterSpacing: 0.9, fontSize: 15)
-                  ),
-                color: PraemiTheme.colorPrimary,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                disabledColor: PraemiTheme.colorPrimary.withOpacity(0.5),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: BorderSide(color: PraemiTheme.colorPrimary)),
-                autofocus: true,
-                onPressed: state.status.isValidated
-                    ? () => context.read<LoginBloc>().add(const LoginSubmitted()) : null,
-              );
+          key: const Key('loginForm_continue_raisedButton'),
+          child: state.status.isSubmissionInProgress ? isLoadingButton(context) :
+            Text( 'Iniciar sesión'.toUpperCase(), 
+              style: TextStyle(color: Colors.white, letterSpacing: 0.9, fontSize: 14)
+            ),
+          color: PraemiTheme.colorPrimary,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          disabledColor: PraemiTheme.colorPrimary.withOpacity(0.5),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
+          autofocus: true,
+          onPressed: state.status.isValidated
+              ? () => context.read<LoginBloc>().add(const LoginSubmitted()) : null,
+        );
       },
     );
   }
