@@ -1,6 +1,7 @@
 # praemiclient
 
 A new Flutter project.
+Descargar Praemi APK: [APK Release](https://github.com/EfrainLayCastillo/praemi-client/raw/main/app-release.apk)
 
 ## Getting Started
 
