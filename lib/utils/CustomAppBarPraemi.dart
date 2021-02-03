@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomAppBarPraemi extends StatelessWidget {
   final List<Widget> actionsWidgets;
@@ -8,10 +9,7 @@ class CustomAppBarPraemi extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       centerTitle: true,
-      title: Image(
-        image: AssetImage('assets/logoPraemi.png'),
-        width: 120,
-      ),
+      title: SvgPicture.asset( 'assets/praemiLogo-1.svg', width: 150 ),
       backgroundColor: Theme.of(context).primaryColor,
       brightness: Brightness.dark,
       pinned: true,
@@ -19,5 +17,7 @@ class CustomAppBarPraemi extends StatelessWidget {
       forceElevated: true,
       actions: actionsWidgets,
     );
-  }
+
+    
+  }  
 }
