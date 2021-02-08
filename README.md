@@ -20,3 +20,15 @@ A few resources to get you started if this is your first Flutter project:
   - User: efrainlay
   - Password: 2021Pass#/*-
 
+## Custom Function
+add_filter('jwt_auth_token_before_dispatch', 'praemiBeforeDispatch', 10, 2);
+
+function praemiBeforeDispatch($data, $user){
+        return $data = array(
+        'success' => true,
+        'token' => $data['token'],
+        'user_email' => $user->data->user_email,
+        'user_nicename' => $user->data->user_nicename,
+        'user_display_name' => $user->data->display_name,
+        );
+}
